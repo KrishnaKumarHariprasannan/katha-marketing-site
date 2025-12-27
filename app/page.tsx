@@ -10,6 +10,8 @@ export default function Home() {
   const contactFromRef = useRef<HTMLInputElement | null>(null);
   const isProgrammaticScrollRef = useRef(false);
   const [showTop, setShowTop] = useState(false);
+  const [menuOpen, setMenuOpen] = useState(false);
+  const [activeService, setActiveService] = useState<null | { title: string; detail: string }>(null);
 
   useEffect(() => {
     const onScroll = () => {
@@ -24,13 +26,43 @@ export default function Home() {
     };
   }, []);
 
+  // Disable page scroll when either the hamburger menu or services overlay is open
+  useEffect(() => {
+    if (menuOpen || activeService) {
+      document.body.style.overflow = "hidden";
+    } else {
+      document.body.style.overflow = "";
+    }
+    return () => {
+      document.body.style.overflow = "";
+    };
+  }, [menuOpen, activeService]);
+
+  const services = [
+    {
+      title: "Content & Campaign Marketing",
+      detail:
+        "At Katha, we don't just write words, we spark stories. High-quality content is the lifeblood of your brand's identity, it communicates your unique message to audiences, both loyal and new. Be it a copy for your website, a blog, or even a message you're shouting from every rooftop in town, we will help you figure out what you want to say and, just as importantly, how to say it.",
+    },
+    {
+      title: "Branding Strategy",
+      detail:
+        "Your business has a story, your brand makes it unforgettable. Our branding strategy blends bold creativity with smart, data-driven decisions to help your business claim its space in the world. So if you're evolving, expanding, merging, or just a bit confused about your brand… let's talk and find something that works for you.",
+    },
+    {
+      title: "Creative Digital Design",
+      detail:
+        "If your brand feels like it needs a shot of espresso and a pep talk, you're in the right place. From wild ideas to polished execution, we take your brand from 'fine' to 'holy wow.' From engaging newsletters to simple cohesive decks, we have it covered. Creative? Absolutely. Strategic? Always."
+    },
+  ];
+
   return (
     <main>
       <section className="hero" ref={heroRef}>
         <header className="hero__nav">
           <div className="hero__logo">
             <Image
-              src="/logo_transparent_white.png"
+              src="/logo_transparent.png"
               alt="Katha logo"
               className="hero__logo-mark"
               width={24}
@@ -44,6 +76,36 @@ export default function Home() {
             <span className="hero__menu-separator">|</span>
             <a href="#contact">Contact</a>
           </nav>
+          {/* Mobile burger + panel */}
+          <button
+            className="hero__burger"
+            aria-label="Toggle menu"
+            aria-expanded={menuOpen}
+            aria-controls="hero-menu-panel"
+            onClick={() => setMenuOpen((v) => !v)}
+          >
+            ☰
+          </button>
+          <div
+            id="hero-menu-panel"
+            className="hero__menu-panel"
+            role="menu"
+            aria-hidden={!menuOpen}
+          >
+            <button
+              className="hero__menu-close"
+              aria-label="Close menu"
+              onClick={() => setMenuOpen(false)}
+            >
+              ×
+            </button>
+            <a role="menuitem" href="#services" onClick={() => setMenuOpen(false)}>
+              Services
+            </a>
+            <a role="menuitem" href="#contact" onClick={() => setMenuOpen(false)}>
+              Contact
+            </a>
+          </div>
         </header>
 
         <section className="hero__content">
@@ -116,7 +178,7 @@ export default function Home() {
       <section id="services" className="services" ref={servicesRef}>
         <header className="services__header">
           <h2 className="services__title">Services</h2>
-          <p className="section__subtitle">
+          <p className="services__subtitle">
             We moonlight as spies, ninjas, & tap dancers...
             <br></br>
             but, here’s what we do during the day:
@@ -124,59 +186,59 @@ export default function Home() {
         </header>
 
         <div className="services__grid">
-          <article className="service-card service-card--flip">
-            <div className="service-card__inner">
-              <div className="service-card__front">
-                <h3 className="service-card__title">
-                  Content & Campaign Marketing
-                </h3>
+          {services.map((svc) => (
+            <article key={svc.title} className="service-card service-card--flip">
+              <div className="service-card__inner">
+                <div className="service-card__front">
+                  <h3 className="service-card__title">{svc.title}</h3>
+                </div>
+                <div className="service-card__back" aria-hidden="false">
+                  <p className="service-card__detail">{svc.detail}</p>
+                </div>
               </div>
-              <div className="service-card__back" aria-hidden="false">
-                <p className="service-card__detail">
-                  At Katha, we don’t just write words, we spark stories.
-                  High-quality content is the lifeblood of your brand’s
-                  identity, it communicates your unique message to audiences,
-                  both loyal and new. Be it a copy for your website, a blog, or even a message you’re shouting from every
-                  rooftop in town, we will help you figure out what you want to
-                  say and, just as importantly, how to say it.
-                </p>
-              </div>
-            </div>
-          </article>
-          <article className="service-card service-card--flip">
-            <div className="service-card__inner">
-              <div className="service-card__front">
-                <h3 className="service-card__title">Branding Strategy</h3>
-              </div>
-              <div className="service-card__back" aria-hidden="false">
-                <p className="service-card__detail">
-                  Your business has a story, your brand makes it unforgettable.
-                  Our branding strategy blends bold creativity with smart,
-                  data-driven decisions to help your business claim its space in
-                  the world. So if you’re evolving, expanding, merging, or just
-                  a bit confused about your brand… let’s talk and find something
-                  that works for you.
-                </p>
-              </div>
-            </div>
-          </article>
-          <article className="service-card service-card--flip">
-            <div className="service-card__inner">
-              <div className="service-card__front">
-                <h3 className="service-card__title">Creative Digital Design</h3>
-              </div>
-              <div className="service-card__back" aria-hidden="false">
-                <p className="service-card__detail">
-                  If your brand feels like it needs a shot of espresso and a pep
-                  talk, you’re in the right place. From wild ideas to polished
-                  execution, we take your brand from “fine” to “holy wow.”. From
-                  engaging newsletters to simple cohesive decks, we have it
-                  covered. Creative? Absolutely. Strategic? Always.
-                </p>
-              </div>
-            </div>
-          </article>
+            </article>
+          ))}
         </div>
+
+        {/* Mobile grid buttons */}
+        <div className="services__mobile-grid">
+          {services.map((svc) => (
+            <button
+              key={`btn-${svc.title}`}
+              className="services__mobile-button"
+              onClick={() => setActiveService(svc)}
+            >
+              {svc.title}
+            </button>
+          ))}
+        </div>
+
+        {/* Mobile service overlay */}
+        {activeService && (
+          <div
+            className="services__overlay"
+            role="dialog"
+            aria-modal="true"
+            aria-label={`Details for ${activeService.title}`}
+            onClick={(e) => {
+              if (e.currentTarget === e.target) setActiveService(null);
+            }}
+          >
+            <button
+              className="services__overlay-close"
+              aria-label="Close"
+              onClick={() => setActiveService(null)}
+            >
+              ×
+            </button>
+            <div className="services__overlay-content">
+              <h3 className="service-card__title" style={{ marginTop: 0 }}>
+                {activeService.title}
+              </h3>
+              <p className="service-card__detail">{activeService.detail}</p>
+            </div>
+          </div>
+        )}
 
         {/* Jump to Contact overlay button */}
         <button
@@ -212,8 +274,16 @@ export default function Home() {
             <div
               style={{ display: "flex", flexDirection: "column", gap: "20px" }}
             >
-              <h3 className="service-card__title" style={{ margin: 0 }}>
-                hello@katha.io
+              <a
+                className="service-card__title"
+                style={{ margin: 0, textDecoration: "none" }}
+                href="mailto:hello@katha.io"
+                aria-label="Email hello@katha.io"
+              >
+                E-MAIL
+              </a>
+              <h3 className="contact__message-label" style={{ textAlign: "center" }}>
+                Or leave us a message ↓
               </h3>
               <form
                 onSubmit={async (e) => {
@@ -290,6 +360,30 @@ export default function Home() {
         </div>
         <div className="service-banner__container">
           <div className="service-banner__scroll">
+            <span>EMAIL MARKETING</span>
+            <span>✶</span>
+            <span>COPY WRITING</span>
+            <span>✶</span>
+            <span>SEO STRATEGY</span>
+            <span>✶</span>
+            <span>SEO ANALYTICS</span>
+            <span>✶</span>
+            <span>DIGITAL STRATEGY</span>
+            <span>✶</span>
+            <span>TONE OF VOICE</span>
+            <span>✶</span>
+            <span>EMAIL MARKETING</span>
+            <span>✶</span>
+            <span>COPY WRITING</span>
+            <span>✶</span>
+            <span>SEO STRATEGY</span>
+            <span>✶</span>
+            <span>SEO ANALYTICS</span>
+            <span>✶</span>
+            <span>DIGITAL STRATEGY</span>
+            <span>✶</span>
+            <span>TONE OF VOICE</span>
+            <span>✶</span>
             <span>EMAIL MARKETING</span>
             <span>✶</span>
             <span>COPY WRITING</span>
