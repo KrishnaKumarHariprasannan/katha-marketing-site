@@ -306,10 +306,6 @@ body {
   margin: 0 0 var(--space-md);
 }
 
-#contact .services__title {
-  font-size: clamp(1.8rem, 4.5vw, 3.2rem);
-}
-
 #contact .hero__subtitle {
   font-size: 1.1rem;
   letter-spacing: var(--track-md);
@@ -556,6 +552,16 @@ body {
   gap: var(--space-md);
   font-family: var(--font-mulish), system-ui, sans-serif;
 }
+
+.contact__title {
+  margin: 0 0 0;
+  font-size: clamp(2rem, 5vw, 4rem);
+  letter-spacing: var(--track-lg);
+  text-transform: uppercase;
+  font-family: var(--font-quicksand), system-ui, sans-serif;
+  text-shadow: var(--glow-white-1), var(--glow-white-2);
+}
+
 .contact__subtitle {
   margin: 0 0 var(--space-xl);
   font-size: 1.8em;
@@ -666,6 +672,13 @@ body {
   .services__grid { gap: var(--space-lg); }
 }
 
+/* Reduce hero background image size on short viewports */
+@media (max-height: 700px) {
+  .hero {
+    background-size: clamp(240px, 36vw, 44vw), auto;
+  }
+}
+
 /* Enforce desktop defaults above mobile breakpoint */
 @media (min-width: 641px) {
   .hero__menu { display: inline-flex !important; }
@@ -708,7 +721,6 @@ body {
   .services__title { font-size: clamp(2.8rem, 12vw, 3.6rem); letter-spacing: 0.24em; }
   .services__subtitle { font-size: 1rem; letter-spacing: 0.2em; text-transform: none;}
   .services__grid { display: none !important; }
-  .services__carousel { display: none !important; }
   
   .service-card { min-height: 360px; }
   /* Hide overlay next buttons on mobile */
@@ -806,5 +818,6 @@ body {
   }
   .services__overlay-close:hover { filter: brightness(1.05); }
 
+  .contact__title { font-size: clamp(2.8rem, 12vw, 3.6rem); letter-spacing: 0.24em; }
   .contact__subtitle { font-size: 1rem; letter-spacing: 0.2em; text-transform: none; margin: 0;}
 }

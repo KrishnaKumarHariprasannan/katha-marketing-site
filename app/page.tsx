@@ -263,7 +263,7 @@ export default function Home() {
         ref={contactRef}
       >
         <header className="services__header">
-          <h2 id="contact-title" className="services__title">
+          <h2 id="contact-title" className="contact__title">
             Contact
           </h2>
           <p className="contact__subtitle">We'd love to hear from you</p>
