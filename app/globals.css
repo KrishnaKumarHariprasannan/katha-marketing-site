@@ -450,8 +450,9 @@ body {
 }
 
 .service-card--flip:hover .service-card__inner {
-  transform: translateY(-10px) rotateX(6deg);
-  box-shadow: 0 18px 34px rgba(0,0,0,0.45);
+  /* Remove hover flip/tilt; keep standard card shadow */
+  transform: none;
+  box-shadow: var(--shadow-card-inset), var(--shadow-card);
 }
 
 .service-card__front,
@@ -484,43 +485,28 @@ body {
   color: var(--text-dim);
   text-align: left;
   font-family: var(--font-mulish), system-ui, sans-serif;
+  white-space: pre-line; /* render \n as line breaks for service details */
 }
 
 .service-card--flip:hover .service-card__front {
-  align-items: flex-start;
-  justify-content: center; /* center the title horizontally at the top */
-  padding-top: 18px;
-  position: absolute;
-  top: 0;
-  left: 0;
-  width: 100%;
-  height: auto;
-  pointer-events: none; /* keep hover targeting the card */
+  /* Hide the front/title on hover to prevent overlap */
+  display: none;
 }
 
 .service-card--flip:hover .service-card__title {
-  transform: translateY(0);
-  font-size: clamp(0.95rem, 1.8vw, 1.3rem);
-  margin-left: auto;
-  margin-right: auto;
-  text-align: center;
+  /* Hide the title entirely when showing details */
+  display: none;
 }
 
 .service-card--flip:hover .service-card__back {
   opacity: 1;
   visibility: visible;
   transition: opacity 400ms ease;
-  padding-top: 96px; /* space below the title so it does not overlap */
+  /* No extra top padding needed once title is hidden */
+  padding-top: 0;
 }
 
-/* Extra spacing for the first card whose title wraps to two lines */
-.services__grid .service-card--flip:first-child .service-card__back {
-  padding-top: 132px;
-}
-
-.services__grid .service-card--flip:first-child:hover .service-card__title {
-  font-size: clamp(0.9rem, 1.6vw, 1.2rem);
-}
+/* Removed special-case spacing: title is hidden on hover */
 
 .service-banner__container {
   position: absolute;
@@ -668,7 +654,8 @@ body {
   .services { padding: var(--space-2xl) var(--space-3xl) var(--banner-height); }
   .service-card { min-height: clamp(360px, 52vh, 460px); }
   .service-card--flip .service-card__inner { padding: 24px; }
-  .service-card--flip:hover .service-card__back { padding-top: 72px; }
+  /* Title hidden on hover; no top offset needed on short viewports */
+  .service-card--flip:hover .service-card__back { padding-top: 0; }
   .services__grid { gap: var(--space-lg); }
 }
 
@@ -689,6 +676,14 @@ body {
   .services__mobile-grid { display: none !important; }
   /* Desktop-only larger size for contact message label */
   .contact__message-label { font-size: clamp(1.2rem, 1.4vw, 1.6rem); }
+
+  /* Desktop hover: title hidden; show details with scroll if needed */
+  .service-card--flip:hover .service-card__back {
+    padding-top: 0; /* no title visible, no offset needed */
+    height: 100%;
+    box-sizing: border-box;
+    overflow-y: auto; /* scroll detail if it exceeds available area */
+  }
 }
 
 

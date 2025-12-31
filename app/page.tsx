@@ -52,7 +52,7 @@ export default function Home() {
     {
       title: "Creative Digital Design",
       detail:
-        "If your brand feels like it needs a shot of espresso and a pep talk, you're in the right place. From wild ideas to polished execution, we take your brand from 'fine' to 'holy wow.' From engaging newsletters to simple cohesive decks, we have it covered. Creative? Absolutely. Strategic? Always."
+        "If your brand feels like it needs a shot of espresso and a pep talk, you're in the right place. From wild ideas to polished execution, we take your brand from 'fine' to 'holy wow.' From engaging newsletters to simple cohesive decks, we have it covered.\nCreative? Absolutely. Strategic? Always."
     },
   ];
 
