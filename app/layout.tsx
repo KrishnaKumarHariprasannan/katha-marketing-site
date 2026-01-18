@@ -1,4 +1,5 @@
 import type { Metadata } from "next";
+import { Analytics } from "@vercel/analytics/next";
 import { Quicksand, Mulish } from "next/font/google";
 import "./globals.css";
 
@@ -48,6 +49,7 @@ export default function RootLayout({
         className={`${quicksand.variable} ${mulish.variable} antialiased`}
       >
         {children}
+        <Analytics />
       </body>
     </html>
   );
