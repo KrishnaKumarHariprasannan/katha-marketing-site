@@ -11,7 +11,10 @@ export default function Home() {
   const isProgrammaticScrollRef = useRef(false);
   const [showTop, setShowTop] = useState(false);
   const [menuOpen, setMenuOpen] = useState(false);
-  const [activeService, setActiveService] = useState<null | { title: string; detail: string }>(null);
+  const [activeService, setActiveService] = useState<null | {
+    title: string;
+    detail: string;
+  }>(null);
 
   useEffect(() => {
     const onScroll = () => {
@@ -52,7 +55,7 @@ export default function Home() {
     {
       title: "Creative Digital Design",
       detail:
-        "If your brand feels like it needs a shot of espresso and a pep talk, you're in the right place. From wild ideas to polished execution, we take your brand from 'fine' to 'holy wow.' From engaging newsletters to simple cohesive decks, we have it covered.\nCreative? Absolutely. Strategic? Always."
+        "If your brand feels like it needs a shot of espresso and a pep talk, you're in the right place. From wild ideas to polished execution, we take your brand from 'fine' to 'holy wow.' From engaging newsletters to simple cohesive decks, we have it covered.\nCreative? Absolutely. Strategic? Always.",
     },
   ];
 
@@ -99,10 +102,18 @@ export default function Home() {
             >
               ×
             </button>
-            <a role="menuitem" href="#services" onClick={() => setMenuOpen(false)}>
+            <a
+              role="menuitem"
+              href="#services"
+              onClick={() => setMenuOpen(false)}
+            >
               Services
             </a>
-            <a role="menuitem" href="#contact" onClick={() => setMenuOpen(false)}>
+            <a
+              role="menuitem"
+              href="#contact"
+              onClick={() => setMenuOpen(false)}
+            >
               Contact
             </a>
           </div>
@@ -111,10 +122,15 @@ export default function Home() {
         <section className="hero__content">
           <div className="hero__copy">
             <h1 className="hero__title">KATHA</h1>
-            <h2 className="hero__subtitle">Build your story with us</h2>
+            <h2 className="hero__subtitle">
+              The growth studio for impact makers
+            </h2>
             <p className="hero__description">
-              We help brands say what they mean and say it like they mean it.
-              Let&apos;s make those big moves together.
+              We are an communications studio helping purpose driven
+              organisations shape the future.
+              <br />
+              <br />
+              Creative? Absolutely. Strategic? Always.
             </p>
 
             <div className="hero__actions">
@@ -145,7 +161,7 @@ export default function Home() {
                           isProgrammaticScrollRef.current = false;
                         }
                       },
-                      { threshold: [0.75, 1] }
+                      { threshold: [0.75, 1] },
                     );
                     onceObserver.observe(target);
                   }
@@ -155,7 +171,7 @@ export default function Home() {
                   }, 1500);
                 }}
               >
-                Get started
+                WORK WITH US
               </button>
             </div>
           </div>
@@ -187,7 +203,10 @@ export default function Home() {
 
         <div className="services__grid">
           {services.map((svc) => (
-            <article key={svc.title} className="service-card service-card--flip">
+            <article
+              key={svc.title}
+              className="service-card service-card--flip"
+            >
               <div className="service-card__inner">
                 <div className="service-card__front">
                   <h3 className="service-card__title">{svc.title}</h3>
@@ -269,7 +288,7 @@ export default function Home() {
           <p className="contact__subtitle">We'd love to hear from you</p>
         </header>
 
-        <div  style={{ gridTemplateColumns: "1fr" }}>
+        <div style={{ gridTemplateColumns: "1fr" }}>
           <article className="service-card" style={{ minHeight: "auto" }}>
             <div
               style={{ display: "flex", flexDirection: "column", gap: "20px" }}
@@ -282,7 +301,10 @@ export default function Home() {
               >
                 E-MAIL
               </a>
-              <h3 className="contact__message-label" style={{ textAlign: "center" }}>
+              <h3
+                className="contact__message-label"
+                style={{ textAlign: "center" }}
+              >
                 Or leave us a message ↓
               </h3>
               <form
@@ -314,7 +336,7 @@ export default function Home() {
                     alert(
                       `Sorry, we couldn't send your message. ${
                         err?.message || "Please try again later."
-                      }`
+                      }`,
                     );
                   }
                 }}
