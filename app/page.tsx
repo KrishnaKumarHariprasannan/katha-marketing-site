@@ -5,6 +5,7 @@ import { useEffect, useRef, useState } from "react";
 
 export default function Home() {
   const heroRef = useRef<HTMLElement | null>(null);
+  const aboutRef = useRef<HTMLElement | null>(null);
   const servicesRef = useRef<HTMLElement | null>(null);
   const contactRef = useRef<HTMLElement | null>(null);
   const contactFromRef = useRef<HTMLInputElement | null>(null);
@@ -45,17 +46,17 @@ export default function Home() {
     {
       title: "Content & Campaign Marketing",
       detail:
-        "At Katha, we don't just write words, we spark stories. High-quality content is the lifeblood of your brand's identity, it communicates your unique message to audiences, both loyal and new. Be it a copy for your website, a blog, or even a message you're shouting from every rooftop in town, we will help you figure out what you want to say and, just as importantly, how to say it.",
+        "Turning your spreadsheets into words that spark stories. We transform complex programmes into narratives that funders, policymakers, and communities resonate with. Be it a copy for your website, a case study, or even a message you're shouting from every rooftop in town, we will help you figure out what you want to say and, just as importantly, how to say it.",
     },
     {
-      title: "Branding Strategy",
+      title: "Branding & Narrative Strategy",
       detail:
-        "Your business has a story, your brand makes it unforgettable. Our branding strategy blends bold creativity with smart, data-driven decisions to help your business claim its space in the world. So if you're evolving, expanding, merging, or just a bit confused about your brand… let's talk and find something that works for you.",
+        "Your organisation has a story, your brand makes it unforgettable. Our branding strategy blends bold creativity with smart, data-driven decisions to help your brand claim its space in the world. So if you're evolving, expanding, merging, or just a bit confused about your brand… let's talk and find something that works for you.",
     },
     {
       title: "Creative Digital Design",
       detail:
-        "If your brand feels like it needs a shot of espresso and a pep talk, you're in the right place. From wild ideas to polished execution, we take your brand from 'fine' to 'holy wow.' From engaging newsletters to simple cohesive decks, we have it covered.\nCreative? Absolutely. Strategic? Always.",
+        "Great stories deserve beautiful execution. We design digital experiences and visual assets that bring your narrative to life across platforms. If your brand feels like it needs a shot of espresso and a pep talk, you're in the right place. Our approach combines design thinking with storytelling, ensuring that every visual element supports the larger narrative. From engaging newsletters to simple cohesive decks, we have it covered.",
     },
   ];
 
@@ -75,6 +76,8 @@ export default function Home() {
             <span className="hero__logo-text">KATHA</span>
           </div>
           <nav className="hero__menu">
+            <a href="#about">About</a>
+            <span className="hero__menu-separator">|</span>
             <a href="#services">Services</a>
             <span className="hero__menu-separator">|</span>
             <a href="#contact">Contact</a>
@@ -102,6 +105,13 @@ export default function Home() {
             >
               ×
             </button>
+            <a
+              role="menuitem"
+              href="#about"
+              onClick={() => setMenuOpen(false)}
+            >
+              About
+            </a>
             <a
               role="menuitem"
               href="#services"
@@ -179,10 +189,10 @@ export default function Home() {
       </section>
       {/* Jump to Services overlay button */}
       <button
-        aria-label="Continue to Services"
+        aria-label="Continue to About"
         className="section-next"
         onClick={() => {
-          servicesRef.current?.scrollIntoView({
+          aboutRef.current?.scrollIntoView({
             behavior: "smooth",
             block: "start",
           });
@@ -190,6 +200,63 @@ export default function Home() {
       >
         ↓
       </button>
+
+      <section id="about" className="services about" ref={aboutRef}>
+        <header className="services__header">
+          <h2 className="services__title">About</h2>
+        </header>
+
+        <div className="about__content">
+          <article className="about__card">
+            <h3 className="about__lead">
+              Katha means “story.” We mean adventure.
+            </h3>
+            <br />
+
+            <div className="about__body">
+              <p>
+                Stories aren’t just for bedtime, they shape the way the world
+                sees your work. They build trust, spark movements, and create
+                action.
+              </p>
+              <p>
+                At Katha, we help organisations that are trying to create an
+                impact - from climate change to education, research to social
+                innovation - make sure their stories get heard. Through
+                strategy, storytelling, and marketing we help organisations
+                turn complex work into narratives that inspire action.
+              </p>
+              <p>
+                How do we do this? With a mix of strategy, storytelling, and a
+                touch of mischief.
+              </p>
+              <p className="about__list-intro">Whether you’re:</p>
+              <ul className="about__list">
+                <li>a social enterprise launching a bold idea</li>
+                <li>a foundation funding change-makers</li>
+                <li>a climate startup saving the planet</li>
+                <li>or an NGO trying to influence policy</li>
+              </ul>
+              <p className="about__list-intro">
+                we help your story travel further, faster, and with flair.
+              </p>
+            </div>
+          </article>
+        </div>
+
+        <button
+          aria-label="Continue to Services"
+          className="section-next"
+          onClick={() => {
+            servicesRef.current?.scrollIntoView({
+              behavior: "smooth",
+              block: "start",
+            });
+          }}
+        >
+          ↓
+        </button>
+      </section>
 
       <section id="services" className="services" ref={servicesRef}>
         <header className="services__header">
@@ -258,6 +325,11 @@ export default function Home() {
             </div>
           </div>
         )}
+
+        <p className="services__subtitle services__footer-note">
+          We don’t offer a one-size-fits-all service. Everything is bespoke,
+          based on your goals, values, and your audience.
+        </p>
 
         {/* Jump to Contact overlay button */}
         <button
