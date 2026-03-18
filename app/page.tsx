@@ -326,8 +326,9 @@ export default function Home() {
           </div>
         )}
 
-        <p className="services__subtitle services__footer-note">
-          We don’t offer a one-size-fits-all service. Everything is bespoke,
+        <p className="services__footer-note">
+          We don’t offer a one-size-fits-all service.
+          <br />Everything is bespoke,
           based on your goals, values, and your audience.
         </p>
 
