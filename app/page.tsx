@@ -12,6 +12,7 @@ export default function Home() {
   const isProgrammaticScrollRef = useRef(false);
   const [showTop, setShowTop] = useState(false);
   const [menuOpen, setMenuOpen] = useState(false);
+  const [aboutExpanded, setAboutExpanded] = useState(false);
   const [activeService, setActiveService] = useState<null | {
     title: string;
     detail: string;
@@ -207,7 +208,9 @@ export default function Home() {
         </header>
 
         <div className="about__content">
-          <article className="about__card">
+          <article
+            className={`about__card${aboutExpanded ? " about__card--expanded" : ""}`}
+          >
             <h3 className="about__lead">
               Katha means “story.” We mean adventure.
             </h3>
@@ -230,17 +233,29 @@ export default function Home() {
                 How do we do this? With a mix of strategy, storytelling, and a
                 touch of fun.
               </p>
-              <p className="about__list-intro">Whether you’re:</p>
-              <ul className="about__list">
-                <li>a social enterprise launching a bold idea</li>
-                <li>a foundation funding change-makers</li>
-                <li>a climate startup saving the planet</li>
-                <li>or an NGO trying to influence policy</li>
-              </ul>
-              <p className="about__list-intro">
-                we help your story travel further, faster, and with flair.
-              </p>
+              <div className="about__extra" aria-hidden={!aboutExpanded}>
+                <div className="about__extra-inner">
+                  <p className="about__list-intro">Whether you’re:</p>
+                  <ul className="about__list">
+                    <li>a social enterprise launching a bold idea</li>
+                    <li>a foundation funding change-makers</li>
+                    <li>a climate startup saving the planet</li>
+                    <li>or an NGO trying to influence policy</li>
+                  </ul>
+                  <p className="about__list-intro">
+                    we help your story travel further, faster, and with flair.
+                  </p>
+                </div>
+              </div>
             </div>
+            <button
+              type="button"
+              className={`about__toggle${aboutExpanded ? " about__toggle--less" : ""}`}
+              aria-expanded={aboutExpanded}
+              onClick={() => setAboutExpanded((current) => !current)}
+            >
+              {aboutExpanded ? "Show less" : "Read more"}
+            </button>
           </article>
         </div>
 
