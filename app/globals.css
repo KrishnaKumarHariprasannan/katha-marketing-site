@@ -1078,6 +1078,12 @@ body {
 
 /* Mobile nav: hide desktop menu, show burger */
 @media (max-width: 640px) {
+
+  .services {
+    padding: var(--space-lg) var(--space-lg) var(--banner-height);
+  }
+
+
   /* Nav & branding */
   .hero {
     padding: 20px 16px 28px;
