@@ -1074,6 +1074,26 @@ body {
   .contact__message-label {
     font-size: clamp(1.2rem, 1.4vw, 1.6rem);
   }
+
+  .about__toggle {
+    display: none;
+  }
+
+  .about__extra {
+    grid-template-rows: 1fr;
+    opacity: 1;
+    margin-top: var(--space-sm);
+  }
+
+  .about__extra-inner {
+    overflow: visible;
+  }
+
+  .about__body,
+  .about__card,
+  .about__card--expanded .about__body {
+    overflow: visible;
+  }
 }
 
 /* Mobile nav: hide desktop menu, show burger */

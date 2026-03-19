@@ -214,7 +214,6 @@ export default function Home() {
             <h3 className="about__lead">
               Katha means “story.” We mean adventure.
             </h3>
-            <br />
 
             <div className="about__body">
               <p>
