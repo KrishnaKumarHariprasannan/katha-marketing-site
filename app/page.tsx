@@ -216,7 +216,7 @@ export default function Home() {
             <div className="about__body">
               <p>
                 Stories aren’t just for bedtime, they shape the way the world
-                sees your work. They build trust, spark movements, and create
+                views your work. They build trust, spark movements, and create
                 action.
               </p>
               <p>
@@ -228,7 +228,7 @@ export default function Home() {
               </p>
               <p>
                 How do we do this? With a mix of strategy, storytelling, and a
-                touch of mischief.
+                touch of fun.
               </p>
               <p className="about__list-intro">Whether you’re:</p>
               <ul className="about__list">
