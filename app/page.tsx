@@ -358,7 +358,7 @@ export default function Home() {
           <h2 id="contact-title" className="contact__title">
             Contact
           </h2>
-          <p className="contact__subtitle">We'd love to hear from you</p>
+          <p className="contact__subtitle">We&apos;d love to hear from you</p>
         </header>
 
         <div style={{ gridTemplateColumns: "1fr" }}>
@@ -405,11 +405,13 @@ export default function Home() {
                     }
                     alert("Thanks! Your message has been sent.");
                     form.reset();
-                  } catch (err: any) {
+                  } catch (err: unknown) {
+                    const message =
+                      err instanceof Error
+                        ? err.message
+                        : "Please try again later.";
                     alert(
-                      `Sorry, we couldn't send your message. ${
-                        err?.message || "Please try again later."
-                      }`,
+                      `Sorry, we couldn't send your message. ${message}`,
                     );
                   }
                 }}
