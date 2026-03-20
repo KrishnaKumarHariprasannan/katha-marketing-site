@@ -6,6 +6,7 @@ import { useEffect, useRef, useState } from "react";
 export default function Home() {
   const heroRef = useRef<HTMLElement | null>(null);
   const aboutRef = useRef<HTMLElement | null>(null);
+  const aboutBodyRef = useRef<HTMLDivElement | null>(null);
   const servicesRef = useRef<HTMLElement | null>(null);
   const contactRef = useRef<HTMLElement | null>(null);
   const contactFromRef = useRef<HTMLInputElement | null>(null);
@@ -13,10 +14,19 @@ export default function Home() {
   const [showTop, setShowTop] = useState(false);
   const [menuOpen, setMenuOpen] = useState(false);
   const [aboutExpanded, setAboutExpanded] = useState(false);
+  const aboutCollapseTimeoutRef = useRef<number | null>(null);
   const [activeService, setActiveService] = useState<null | {
     title: string;
     detail: string;
   }>(null);
+
+  useEffect(() => {
+    return () => {
+      if (aboutCollapseTimeoutRef.current !== null) {
+        window.clearTimeout(aboutCollapseTimeoutRef.current);
+      }
+    };
+  }, []);
 
   useEffect(() => {
     const onScroll = () => {
@@ -215,7 +225,7 @@ export default function Home() {
               Katha means “story.” We mean adventure.
             </h3>
 
-            <div className="about__body">
+            <div className="about__body" ref={aboutBodyRef}>
               <p>
                 Stories aren’t just for bedtime, they shape the way the world
                 views your work. They build trust, spark movements, and create
@@ -251,7 +261,26 @@ export default function Home() {
               type="button"
               className={`about__toggle${aboutExpanded ? " about__toggle--less" : ""}`}
               aria-expanded={aboutExpanded}
-              onClick={() => setAboutExpanded((current) => !current)}
+              onClick={() => {
+                if (!aboutExpanded) {
+                  setAboutExpanded(true);
+                  return;
+                }
+
+                aboutBodyRef.current?.scrollTo({
+                  top: 0,
+                  behavior: "smooth",
+                });
+
+                if (aboutCollapseTimeoutRef.current !== null) {
+                  window.clearTimeout(aboutCollapseTimeoutRef.current);
+                }
+
+                aboutCollapseTimeoutRef.current = window.setTimeout(() => {
+                  setAboutExpanded(false);
+                  aboutCollapseTimeoutRef.current = null;
+                }, 220);
+              }}
             >
               {aboutExpanded ? "Show less" : "Read more"}
             </button>
