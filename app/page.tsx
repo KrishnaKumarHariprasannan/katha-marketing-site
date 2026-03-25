@@ -147,7 +147,7 @@ export default function Home() {
               The growth studio for impact makers
             </h2>
             <p className="hero__description">
-              We are an communications studio helping purpose driven
+              We are a communications studio helping purpose driven
               organisations shape the future.
               <br />
               <br />
