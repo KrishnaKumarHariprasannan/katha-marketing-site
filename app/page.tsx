@@ -143,9 +143,9 @@ export default function Home() {
         <section className="hero__content">
           <div className="hero__copy">
             <h1 className="hero__title">KATHA</h1>
-            <h2 className="hero__subtitle">
+            <h3 className="hero__subtitle">
               The growth studio for impact makers
-            </h2>
+            </h3>
             <p className="hero__description">
               We are a communications studio helping purpose driven
               organisations shape the future.
