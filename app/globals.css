@@ -301,6 +301,14 @@ body {
   box-shadow: var(--shadow-sm);
 }
 
+/* Allow .hero__cta to be used on anchor elements (e.g. the booking link) */
+a.hero__cta {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  text-decoration: none;
+}
+
 /* Services section */
 .services {
   min-height: 100svh; /* allow section to grow with content, no inner scrollbar */

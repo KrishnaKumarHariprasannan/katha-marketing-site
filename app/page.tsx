@@ -91,6 +91,14 @@ export default function Home() {
             <span className="hero__menu-separator">|</span>
             <a href="#services">Services</a>
             <span className="hero__menu-separator">|</span>
+            <a
+              href="https://calendar.app.google/ErKfN8DMAmHmcnt38"
+              target="_blank"
+              rel="noopener noreferrer"
+            >
+              Book a chat
+            </a>
+            <span className="hero__menu-separator">|</span>
             <a href="#contact">Contact</a>
           </nav>
           {/* Mobile burger + panel */}
@@ -132,6 +140,15 @@ export default function Home() {
             </a>
             <a
               role="menuitem"
+              href="https://calendar.app.google/ErKfN8DMAmHmcnt38"
+              target="_blank"
+              rel="noopener noreferrer"
+              onClick={() => setMenuOpen(false)}
+            >
+              Book a chat
+            </a>
+            <a
+              role="menuitem"
               href="#contact"
               onClick={() => setMenuOpen(false)}
             >
@@ -155,45 +172,14 @@ export default function Home() {
             </p>
 
             <div className="hero__actions">
-              <button
+              <a
                 className="hero__cta"
-                onClick={() => {
-                  // Suppress observer auto-scroll while we perform the programmatic scroll
-                  isProgrammaticScrollRef.current = true;
-                  // Smoothly align Contact section to the top
-                  contactRef.current?.scrollIntoView({
-                    behavior: "smooth",
-                    block: "start",
-                  });
-                  // Focus the From input exactly when Contact fills the view
-                  const target = contactRef.current;
-                  if (target) {
-                    const onceObserver = new IntersectionObserver(
-                      (entries, obs) => {
-                        const entry = entries[0];
-                        if (
-                          entry.target === target &&
-                          entry.isIntersecting &&
-                          entry.intersectionRatio >= 0.75
-                        ) {
-                          contactFromRef.current?.focus();
-                          obs.disconnect();
-                          // Re-enable observer behavior after programmatic scroll completes
-                          isProgrammaticScrollRef.current = false;
-                        }
-                      },
-                      { threshold: [0.75, 1] },
-                    );
-                    onceObserver.observe(target);
-                  }
-                  // Safety fallback to re-enable after duration
-                  setTimeout(() => {
-                    isProgrammaticScrollRef.current = false;
-                  }, 1500);
-                }}
+                href="https://calendar.app.google/ErKfN8DMAmHmcnt38"
+                target="_blank"
+                rel="noopener noreferrer"
               >
-                WORK WITH US
-              </button>
+                BOOK A CHAT
+              </a>
             </div>
           </div>
         </section>
