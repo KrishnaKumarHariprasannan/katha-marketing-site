@@ -71,17 +71,21 @@
 }
 
 body {
+  /*
+   * Font roles. Swap a font by changing only these two lines.
+   * Declared on body (not :root) because --font-quicksand / --font-mulish are
+   * injected by next/font onto <body> via layout.tsx — an alias on :root would
+   * resolve before those exist and silently break the whole stack.
+   * To try a single-font site, point --font-body at var(--font-quicksand).
+   */
+  --font-display: var(--font-quicksand), system-ui, sans-serif;
+  --font-body:
+    var(--font-mulish), system-ui, -apple-system, Segoe UI, Roboto, Helvetica,
+    Arial, sans-serif;
+
   background: var(--background);
   color: var(--foreground);
-  font-family:
-    var(--font-mulish),
-    system-ui,
-    -apple-system,
-    Segoe UI,
-    Roboto,
-    Helvetica,
-    Arial,
-    sans-serif;
+  font-family: var(--font-body);
 }
 
 /* Base font-size bump: ~1px increase on 16px base */
@@ -157,7 +161,7 @@ body {
 }
 .hero__logo-text {
   font-size: 2rem;
-  font-family: var(--font-quicksand), system-ui, sans-serif;
+  font-family: var(--font-display);
   line-height: 3rem;
   letter-spacing: var(--track-2, 0.08em);
 }
@@ -262,7 +266,7 @@ body {
   font-size: clamp(5rem, 6vw, 7rem);
   letter-spacing: var(--track-xxl);
   font-weight: 700;
-  font-family: var(--font-quicksand), system-ui, sans-serif;
+  font-family: var(--font-display);
   margin: 0 0 0;
   text-shadow: var(--glow-white-1), var(--glow-white-2);
 }
@@ -272,7 +276,7 @@ body {
   font-size: 1.8em;
   text-transform: uppercase;
   letter-spacing: var(--track-xl);
-  font-family: var(--font-quicksand), system-ui, sans-serif;
+  font-family: var(--font-display);
   color: var(--color-accent-orange-1);
   text-shadow:
     0 0 12px var(--color-accent-orange-1),
@@ -282,7 +286,7 @@ body {
 .hero__description {
   font-size: 1.4rem;
   line-height: 1.7;
-  font-family: var(--font-mulish), system-ui, sans-serif;
+  font-family: var(--font-body);
   max-width: 60rem;
 }
 
@@ -381,7 +385,7 @@ a.hero__cta {
   margin: 0;
   font-size: clamp(1.6rem, 3vw, 2.2rem);
   line-height: 1.3;
-  font-family: var(--font-quicksand), system-ui, sans-serif;
+  font-family: var(--font-display);
   color: var(--color-accent-orange-1);
   text-shadow:
     0 0 12px var(--color-accent-orange-1),
@@ -397,7 +401,7 @@ a.hero__cta {
   font-size: 1.1rem;
   line-height: 1.8;
   color: var(--text-dim);
-  font-family: var(--font-mulish), system-ui, sans-serif;
+  font-family: var(--font-body);
   scrollbar-width: thin;
   scrollbar-color: rgba(255, 191, 168, 0.45) rgba(255, 255, 255, 0.08);
 }
@@ -437,7 +441,7 @@ a.hero__cta {
   font-weight: 700;
   letter-spacing: var(--track-sm);
   text-transform: uppercase;
-  font-family: var(--font-quicksand), system-ui, sans-serif;
+  font-family: var(--font-display);
   cursor: pointer;
 }
 
@@ -553,7 +557,7 @@ a.hero__cta {
   font-size: 1.4em;
   text-transform: uppercase;
   letter-spacing: var(--track-xl);
-  font-family: var(--font-quicksand), system-ui, sans-serif;
+  font-family: var(--font-display);
   color: var(--color-accent-orange-1);
   text-shadow:
     0 0 12px var(--color-accent-orange-1),
@@ -580,7 +584,7 @@ a.hero__cta {
   font-size: clamp(2rem, 5vw, 4rem);
   letter-spacing: var(--track-lg);
   text-transform: uppercase;
-  font-family: var(--font-quicksand), system-ui, sans-serif;
+  font-family: var(--font-display);
   text-shadow: var(--glow-white-1), var(--glow-white-2);
 }
 
@@ -709,7 +713,7 @@ a.hero__cta {
   line-height: 1.6;
   color: var(--text-dim);
   text-align: left;
-  font-family: var(--font-mulish), system-ui, sans-serif;
+  font-family: var(--font-body);
   white-space: pre-line; /* render \n as line breaks for service details */
 }
 
@@ -761,7 +765,7 @@ a.hero__cta {
   display: flex;
   flex-direction: column;
   gap: var(--space-md);
-  font-family: var(--font-mulish), system-ui, sans-serif;
+  font-family: var(--font-body);
 }
 
 .contact__title {
@@ -769,7 +773,7 @@ a.hero__cta {
   font-size: clamp(2rem, 5vw, 4rem);
   letter-spacing: var(--track-lg);
   text-transform: uppercase;
-  font-family: var(--font-quicksand), system-ui, sans-serif;
+  font-family: var(--font-display);
   text-shadow: var(--glow-white-1), var(--glow-white-2);
 }
 
@@ -778,7 +782,7 @@ a.hero__cta {
   font-size: 1.8em;
   text-transform: uppercase;
   letter-spacing: var(--track-xl);
-  font-family: var(--font-quicksand), system-ui, sans-serif;
+  font-family: var(--font-display);
   color: var(--color-accent-orange-1);
   text-shadow:
     0 0 12px var(--color-accent-orange-1),
@@ -790,7 +794,7 @@ a.hero__cta {
   flex-direction: column;
   gap: var(--space-xs);
   color: var(--color-text-secondary);
-  font-family: var(--font-mulish), system-ui, sans-serif;
+  font-family: var(--font-body);
 }
 
 .contact-input,
@@ -802,7 +806,7 @@ a.hero__cta {
   background: rgba(255, 255, 255, 0.08);
   color: var(--color-text-primary);
   outline: none;
-  font-family: var(--font-mulish), system-ui, sans-serif;
+  font-family: var(--font-body);
 }
 
 .contact-input:focus,
@@ -1001,7 +1005,7 @@ a.hero__cta {
     color: var(--color-text-secondary);
     text-transform: uppercase;
     letter-spacing: var(--track-sm);
-    font-family: var(--font-quicksand), system-ui, sans-serif;
+    font-family: var(--font-display);
     background: none;
     border: none;
     box-shadow: var(--glow-amber-1), var(--glow-amber-2);
