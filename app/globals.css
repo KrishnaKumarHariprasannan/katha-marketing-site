@@ -37,6 +37,9 @@
   --radius-label: 22px;
   --radius-pill: 999px;
 
+  /* Layout */
+  --content-max: 1600px; /* max content width; backgrounds stay full-bleed */
+
   /* Spacing */
   --space-xs: 6px;
   --space-sm: 10px;
@@ -90,6 +93,26 @@ html {
 
 body {
   margin: 0;
+}
+
+/*
+ * Centers section content on wide screens while the parent section keeps its
+ * full-bleed background/gradient. Sections own the background; .section-inner
+ * owns the content width.
+ */
+.section-inner {
+  max-width: var(--content-max);
+  width: 100%;
+  margin: 0 auto;
+}
+
+/* Hero and Services size their children to the remaining section height */
+.hero .section-inner,
+#services .section-inner {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  min-height: 0;
 }
 
 .hero {

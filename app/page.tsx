@@ -3,6 +3,8 @@
 import Image from "next/image";
 import { useEffect, useRef, useState } from "react";
 
+const BOOKING_URL = "https://calendar.app.google/ErKfN8DMAmHmcnt38";
+
 export default function Home() {
   const heroRef = useRef<HTMLElement | null>(null);
   const aboutRef = useRef<HTMLElement | null>(null);
@@ -74,6 +76,7 @@ export default function Home() {
   return (
     <main>
       <section className="hero" ref={heroRef}>
+        <div className="section-inner">
         <header className="hero__nav">
           <div className="hero__logo">
             <Image
@@ -90,14 +93,6 @@ export default function Home() {
             <a href="#about">About</a>
             <span className="hero__menu-separator">|</span>
             <a href="#services">Services</a>
-            <span className="hero__menu-separator">|</span>
-            <a
-              href="https://calendar.app.google/ErKfN8DMAmHmcnt38"
-              target="_blank"
-              rel="noopener noreferrer"
-            >
-              Book a chat
-            </a>
             <span className="hero__menu-separator">|</span>
             <a href="#contact">Contact</a>
           </nav>
@@ -140,15 +135,6 @@ export default function Home() {
             </a>
             <a
               role="menuitem"
-              href="https://calendar.app.google/ErKfN8DMAmHmcnt38"
-              target="_blank"
-              rel="noopener noreferrer"
-              onClick={() => setMenuOpen(false)}
-            >
-              Book a chat
-            </a>
-            <a
-              role="menuitem"
               href="#contact"
               onClick={() => setMenuOpen(false)}
             >
@@ -164,8 +150,10 @@ export default function Home() {
               The growth studio for impact makers
             </h3>
             <p className="hero__description">
-              We are a communications studio helping purpose driven
-              organisations shape the future.
+              We help startups, social enterprises, foundations, and research
+              organisations turn their complex, high-impact work into stories
+              that build trust, secure funding, and move the people who
+              matter.
               <br />
               <br />
               Creative? Absolutely. Strategic? Always.
@@ -174,15 +162,16 @@ export default function Home() {
             <div className="hero__actions">
               <a
                 className="hero__cta"
-                href="https://calendar.app.google/ErKfN8DMAmHmcnt38"
+                href={BOOKING_URL}
                 target="_blank"
                 rel="noopener noreferrer"
               >
-                BOOK A CHAT
+                Book a 15-min call
               </a>
             </div>
           </div>
         </section>
+        </div>
       </section>
       {/* Jump to Services overlay button */}
       <button
@@ -199,6 +188,7 @@ export default function Home() {
       </button>
 
       <section id="about" className="services about" ref={aboutRef}>
+        <div className="section-inner">
         <header className="services__header">
           <h2 className="services__title">About</h2>
         </header>
@@ -272,6 +262,7 @@ export default function Home() {
             </button>
           </article>
         </div>
+        </div>
 
         <button
           aria-label="Continue to Services"
@@ -288,6 +279,7 @@ export default function Home() {
       </section>
 
       <section id="services" className="services" ref={servicesRef}>
+        <div className="section-inner">
         <header className="services__header">
           <h2 className="services__title">Services</h2>
           <p className="services__subtitle">
@@ -360,6 +352,7 @@ export default function Home() {
           <br />Everything is bespoke,
           based on your goals, values, and your audience.
         </p>
+        </div>
 
         {/* Jump to Contact overlay button */}
         <button
@@ -383,6 +376,7 @@ export default function Home() {
         aria-labelledby="contact-title"
         ref={contactRef}
       >
+        <div className="section-inner">
         <header className="services__header">
           <h2 id="contact-title" className="contact__title">
             Contact
@@ -483,6 +477,7 @@ export default function Home() {
               </form>
             </div>
           </article>
+        </div>
         </div>
         <div className="service-banner__container">
           <div className="service-banner__scroll">
