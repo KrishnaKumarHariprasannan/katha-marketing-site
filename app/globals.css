@@ -338,7 +338,7 @@ a.hero__cta {
 
 /* Services section */
 .services {
-  min-height: 100svh; /* allow section to grow with content, no inner scrollbar */
+  min-height: 100svh;
   padding: var(--space-2xl) var(--space-3xl) var(--banner-height); /* reduce top padding to fit banner without scroll */
   background: var(--grad-hero);
   color: var(--color-text-primary);
@@ -853,38 +853,6 @@ a.hero__cta {
   transform: none;
 }
 
-/* Overlay next-section button styled similar to back-to-top */
-.section-next {
-  position: absolute;
-  left: 50%;
-  bottom: 20px;
-  transform: translateX(-50%);
-  width: 52px;
-  height: 52px;
-  border-radius: var(--radius-pill);
-  border: none;
-  cursor: pointer;
-  color: var(--color-brand-purple);
-  font-size: 1.4rem;
-  font-weight: 700;
-  background: var(--grad-pastel);
-  box-shadow: var(--shadow-md);
-  z-index: 10;
-}
-
-.section-next:hover {
-  filter: brightness(1.05);
-  transform: translateX(-50%) translateY(-1px);
-}
-.section-next:active {
-  transform: translateX(-50%);
-}
-
-/* Ensure next button in Services sits at the viewport bottom */
-.services > .section-next {
-  bottom: 20px;
-}
-
 /* Removed duplicated mobile rules at 900px; consolidated under 640px */
 
 /* Removed duplicated mobile rules at 600px; consolidated under 640px */
@@ -1217,31 +1185,11 @@ a.hero__cta {
   }
 
   #about.services {
-    height: 100svh;
-    min-height: 100svh;
     padding: 40px 20px 64px;
-    overflow: hidden;
   }
 
   .about__content {
-    display: flex;
-    flex: 1 1 auto;
-    min-height: 0;
     margin-top: var(--space-lg);
-    overflow: hidden;
-  }
-  .about__card {
-    display: grid;
-    grid-template-rows: auto minmax(0, 1fr) auto;
-    flex: 1 1 auto;
-    width: 100%;
-    height: 100%;
-    gap: var(--space-md);
-    min-height: 0;
-    padding: var(--space-lg);
-    margin-bottom: 0;
-    overflow: hidden;
-    overflow-x: hidden;
   }
   .about__flow {
     gap: var(--space-md);
@@ -1250,15 +1198,8 @@ a.hero__cta {
     font-size: 1.5rem;
   }
   .about__body {
-    min-height: 0;
-    overflow: hidden;
     font-size: 1rem;
     line-height: 1.65;
-  }
-  .about__card--expanded .about__body {
-    overflow-y: auto;
-    padding-right: 6px;
-    -webkit-overflow-scrolling: touch;
   }
   .about__toggle {
     align-self: start;
@@ -1268,10 +1209,6 @@ a.hero__cta {
   }
   .about__closing {
     font-size: 1.05rem;
-  }
-  /* Hide overlay next buttons on mobile */
-  .section-next {
-    display: none;
   }
 
   .contact__title {

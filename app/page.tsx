@@ -7,10 +7,7 @@ const BOOKING_URL = "https://calendar.app.google/ErKfN8DMAmHmcnt38";
 
 export default function Home() {
   const heroRef = useRef<HTMLElement | null>(null);
-  const aboutRef = useRef<HTMLElement | null>(null);
   const aboutBodyRef = useRef<HTMLDivElement | null>(null);
-  const servicesRef = useRef<HTMLElement | null>(null);
-  const contactRef = useRef<HTMLElement | null>(null);
   const contactFromRef = useRef<HTMLInputElement | null>(null);
   const isProgrammaticScrollRef = useRef(false);
   const [showTop, setShowTop] = useState(false);
@@ -173,21 +170,8 @@ export default function Home() {
         </section>
         </div>
       </section>
-      {/* Jump to Services overlay button */}
-      <button
-        aria-label="Continue to About"
-        className="section-next"
-        onClick={() => {
-          aboutRef.current?.scrollIntoView({
-            behavior: "smooth",
-            block: "start",
-          });
-        }}
-      >
-        ↓
-      </button>
 
-      <section id="about" className="services about" ref={aboutRef}>
+      <section id="about" className="services about">
         <div className="section-inner">
         <header className="services__header">
           <h2 className="services__title">About</h2>
@@ -263,22 +247,9 @@ export default function Home() {
           </article>
         </div>
         </div>
-
-        <button
-          aria-label="Continue to Services"
-          className="section-next"
-          onClick={() => {
-            servicesRef.current?.scrollIntoView({
-              behavior: "smooth",
-              block: "start",
-            });
-          }}
-        >
-          ↓
-        </button>
       </section>
 
-      <section id="services" className="services" ref={servicesRef}>
+      <section id="services" className="services">
         <div className="section-inner">
         <header className="services__header">
           <h2 className="services__title">Services</h2>
@@ -353,20 +324,6 @@ export default function Home() {
           based on your goals, values, and your audience.
         </p>
         </div>
-
-        {/* Jump to Contact overlay button */}
-        <button
-          aria-label="Continue to Contact"
-          className="section-next"
-          onClick={() => {
-            contactRef.current?.scrollIntoView({
-              behavior: "smooth",
-              block: "start",
-            });
-          }}
-        >
-          ↓
-        </button>
       </section>
 
       {/* Contact Section */}
@@ -374,7 +331,6 @@ export default function Home() {
         id="contact"
         className="services"
         aria-labelledby="contact-title"
-        ref={contactRef}
       >
         <div className="section-inner">
         <header className="services__header">
