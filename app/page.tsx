@@ -71,75 +71,81 @@ export default function Home() {
   ];
 
   return (
-    <main>
+    <>
+      <div className="site-nav">
+        <div className="site-nav__blur" aria-hidden="true" />
+        <div className="section-inner">
+          <header className="hero__nav">
+            <div className="hero__logo">
+              <Image
+                src="/logo_transparent.png"
+                alt="Katha logo"
+                className="hero__logo-mark"
+                width={24}
+                height={24}
+                priority
+              />
+              <span className="hero__logo-text">KATHA</span>
+            </div>
+            <nav className="hero__menu">
+              <a href="#about">About</a>
+              <span className="hero__menu-separator">|</span>
+              <a href="#services">Services</a>
+              <span className="hero__menu-separator">|</span>
+              <a href="#contact">Contact</a>
+            </nav>
+            {/* Mobile burger + panel */}
+            <button
+              className="hero__burger"
+              aria-label="Toggle menu"
+              aria-expanded={menuOpen}
+              aria-controls="hero-menu-panel"
+              onClick={() => setMenuOpen((v) => !v)}
+            >
+              ☰
+            </button>
+            <div
+              id="hero-menu-panel"
+              className="hero__menu-panel"
+              role="menu"
+              aria-hidden={!menuOpen}
+            >
+              <button
+                className="hero__menu-close"
+                aria-label="Close menu"
+                onClick={() => setMenuOpen(false)}
+              >
+                ×
+              </button>
+              <a
+                role="menuitem"
+                href="#about"
+                onClick={() => setMenuOpen(false)}
+              >
+                About
+              </a>
+              <a
+                role="menuitem"
+                href="#services"
+                onClick={() => setMenuOpen(false)}
+              >
+                Services
+              </a>
+              <a
+                role="menuitem"
+                href="#contact"
+                onClick={() => setMenuOpen(false)}
+              >
+                Contact
+              </a>
+            </div>
+          </header>
+        </div>
+      </div>
+
+      <main>
       <section className="hero" ref={heroRef}>
         <div className="section-inner">
-        <header className="hero__nav">
-          <div className="hero__logo">
-            <Image
-              src="/logo_transparent.png"
-              alt="Katha logo"
-              className="hero__logo-mark"
-              width={24}
-              height={24}
-              priority
-            />
-            <span className="hero__logo-text">KATHA</span>
-          </div>
-          <nav className="hero__menu">
-            <a href="#about">About</a>
-            <span className="hero__menu-separator">|</span>
-            <a href="#services">Services</a>
-            <span className="hero__menu-separator">|</span>
-            <a href="#contact">Contact</a>
-          </nav>
-          {/* Mobile burger + panel */}
-          <button
-            className="hero__burger"
-            aria-label="Toggle menu"
-            aria-expanded={menuOpen}
-            aria-controls="hero-menu-panel"
-            onClick={() => setMenuOpen((v) => !v)}
-          >
-            ☰
-          </button>
-          <div
-            id="hero-menu-panel"
-            className="hero__menu-panel"
-            role="menu"
-            aria-hidden={!menuOpen}
-          >
-            <button
-              className="hero__menu-close"
-              aria-label="Close menu"
-              onClick={() => setMenuOpen(false)}
-            >
-              ×
-            </button>
-            <a
-              role="menuitem"
-              href="#about"
-              onClick={() => setMenuOpen(false)}
-            >
-              About
-            </a>
-            <a
-              role="menuitem"
-              href="#services"
-              onClick={() => setMenuOpen(false)}
-            >
-              Services
-            </a>
-            <a
-              role="menuitem"
-              href="#contact"
-              onClick={() => setMenuOpen(false)}
-            >
-              Contact
-            </a>
-          </div>
-        </header>
-
         <section className="hero__content">
           <div className="hero__copy">
             <h1 className="hero__title">KATHA</h1>
@@ -168,6 +174,48 @@ export default function Home() {
             </div>
           </div>
         </section>
+        </div>
+      </section>
+
+      <section id="changes" className="services changes">
+        <div className="section-inner">
+          <header className="services__header">
+            <h2 className="services__title">
+              What changes when you work with us
+            </h2>
+          </header>
+
+          <div className="changes__grid">
+            {[
+              {
+                title:
+                  "Your organisation becomes recognisable, not interchangeable.",
+                detail:
+                  "Messaging is built to stand out and resonate, leading to real action.",
+              },
+              {
+                title:
+                  "Your content starts working like an asset, not an expense.",
+                detail:
+                  "We create content that compounds over time and contributes to growth, not just engagement.",
+              },
+              {
+                title: "You reach the right audience, not just more people.",
+                detail:
+                  "We align your story with the right channels, creators, and communities, leading to stronger leads and better ROI.",
+              },
+              {
+                title: "You reduce marketing time and inefficiency.",
+                detail:
+                  "We streamline communication and marketing for you, freeing your team to focus on your mission.",
+              },
+            ].map((item) => (
+              <article className="change-card" key={item.title}>
+                <h3 className="about__lead">{item.title}</h3>
+                <p className="service-card__detail">{item.detail}</p>
+              </article>
+            ))}
+          </div>
         </div>
       </section>
 
@@ -329,7 +377,7 @@ export default function Home() {
       {/* Contact Section */}
       <section
         id="contact"
-        className="services"
+        className="contact-band"
         aria-labelledby="contact-title"
       >
         <div className="section-inner">
@@ -514,6 +562,7 @@ export default function Home() {
           ↑
         </button>
       )}
-    </main>
+      </main>
+    </>
   );
 }
