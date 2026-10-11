@@ -113,6 +113,12 @@ body {
   margin: 0 auto;
 }
 
+/* Every top-level page section fills at least one viewport. Direct-child
+   selector so nested <section> elements (e.g. .hero__content) are skipped. */
+main > section {
+  min-height: 100svh;
+}
+
 /* Hero sizes its content to the remaining section height */
 .hero .section-inner {
   flex: 1;
@@ -121,12 +127,13 @@ body {
   min-height: 0;
 }
 
-/* Fixed, always-visible nav. The nav itself has no background — the tint
-   and blur both live on .site-nav__blur, a single taller layer whose
-   gradient background AND blur mask ramp down together over the same span.
-   That keeps the fade continuous: content passes from sharp, to
-   increasingly blurred+tinted, to fully hidden by the time it reaches the
-   nav's own strip, with no seam where the "solid" part begins. */
+/* Fixed, always-visible nav. Its background is a flat color set by JS
+   (page.tsx) to match whatever section currently sits behind it — no blur
+   across the nav itself, so it reads as plain background, not a frosted
+   panel. .site-nav__blur is a separate, short band anchored right at the
+   nav's bottom edge: the only place blur happens, so content ramps from
+   sharp to blurred over that thin seam and then meets the flat color,
+   instead of blurring through the entire header. */
 .site-nav {
   position: fixed;
   top: 0;
@@ -138,28 +145,18 @@ body {
   align-items: center;
   padding: 0 var(--space-3xl);
   box-sizing: border-box;
+  background: #431043;
   color: var(--color-text-primary);
 }
 
 .site-nav__blur {
   position: absolute;
-  top: 0;
+  top: 100%;
   left: 0;
   right: 0;
-  height: calc(var(--nav-height) + 64px);
-  backdrop-filter: blur(28px);
-  background: linear-gradient(
-    to bottom,
-    rgba(61, 0, 70, 0.85) 0,
-    rgba(61, 0, 70, 0.85) var(--nav-height),
-    rgba(61, 0, 70, 0) calc(var(--nav-height) + 64px)
-  );
-  mask-image: linear-gradient(
-    to bottom,
-    black 0,
-    black var(--nav-height),
-    transparent calc(var(--nav-height) + 64px)
-  );
+  height: 40px;
+  backdrop-filter: blur(40px);
+  mask-image: linear-gradient(to bottom, black, transparent);
   pointer-events: none;
   z-index: 0;
 }
@@ -171,7 +168,6 @@ body {
 }
 
 .hero {
-  min-height: 100svh;
   display: flex;
   flex-direction: column;
   padding: calc(var(--nav-height) + var(--space-lg)) var(--space-3xl)
@@ -819,7 +815,7 @@ a.hero__cta {
   bottom: 0;
   width: 100%;
   height: var(--banner-height);
-  background: var(--grad-hero);
+  background: var(--color-brand-purple);
   overflow: hidden; /* ensure no vertical overflow from inner content */
 }
 .service-banner__scroll {
