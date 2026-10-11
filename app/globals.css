@@ -119,11 +119,123 @@ main > section {
   min-height: 100svh;
 }
 
+/* Anchor links (About / Services / Contact) land with the section heading
+   below the fixed nav instead of hidden behind it. */
+main > section:not(.hero) {
+  scroll-margin-top: var(--nav-height);
+}
+
 /* One continuous gradient behind every section so there are no seams where
    one section's pink end meets the next one's dark start. Sections stay
    transparent and only add their own decoration on top. */
 main {
   background: var(--grad-hero);
+  /* Own stacking context so .swim can sit behind content but above this
+     background. */
+  position: relative;
+  isolation: isolate;
+}
+
+/* Fish that swim from the top-left to the bottom-right of the viewport as
+   the page scrolls. JS only sets --swim-p (0 at the top of the page, 1 at
+   the bottom); all the geometry lives here. The layer starts partly
+   off-screen (--swim-start, as a fraction of its size) so the fish don't sit
+   behind the hero headline, and ends flush with the bottom-right. Each
+   .swim__fish rides along with the layer but also swims ahead of it (--lead,
+   a fraction of the layer size by the end of the page) with a side-to-side
+   wobble (--wob) and body sway (--sway), both driven by scroll. --fx/--fy
+   (position) and --fw (width) are fractions of the layer. */
+.swim {
+  --swim-size: clamp(380px, 45vw, 50vw);
+  --swim-start: -0.25;
+  --swim-x0: calc(var(--swim-start) * var(--swim-size));
+  --swim-y0: calc(-0.38 * var(--swim-size)); /* higher than x so the lead fish clears the hero title */
+  --swim-x1: calc(100vw - var(--swim-size));
+  --swim-y1: calc(100svh - var(--swim-size));
+  /* Unit vector the fish swim along (down-right, about 35deg) */
+  --swim-dir-x: 0.82;
+  --swim-dir-y: 0.57;
+  position: fixed;
+  top: 0;
+  left: 0;
+  z-index: -1;
+  width: var(--swim-size);
+  height: var(--swim-size);
+  pointer-events: none;
+  will-change: transform;
+  transform: translate3d(
+    calc(var(--swim-x0) + var(--swim-p, 0) * (var(--swim-x1) - var(--swim-x0))),
+    calc(var(--swim-y0) + var(--swim-p, 0) * (var(--swim-y1) - var(--swim-y0))),
+    0
+  );
+}
+
+.swim__fish {
+  --lead: 0.5;
+  --wave: 30; /* wobble/sway cycles (radians) over the whole page */
+  --phase: 0;
+  --wob: 0.03;
+  --sway: 8deg;
+  --along: calc(var(--lead) * var(--swim-size) * var(--swim-p, 0));
+  --across: calc(
+    sin(var(--swim-p, 0) * var(--wave) + var(--phase)) * var(--wob) * var(--swim-size)
+  );
+  position: absolute;
+  left: calc(var(--fx) * 100%);
+  top: calc(var(--fy) * 100%);
+  width: calc(var(--fw) * 100%);
+  height: auto;
+  transform:
+    translate3d(
+      calc(var(--along) * var(--swim-dir-x) - var(--across) * var(--swim-dir-y)),
+      calc(var(--along) * var(--swim-dir-y) + var(--across) * var(--swim-dir-x)),
+      0
+    )
+    rotate(calc(180deg + sin(var(--swim-p, 0) * var(--wave) + var(--phase)) * var(--sway)));
+}
+
+/* Leader: the big fish out in front */
+.swim__fish--1 {
+  --fx: 0.551;
+  --fy: 0.484;
+  --fw: 0.347;
+  --lead: 0.55;
+  --wave: 30;
+}
+
+/* Big fish following behind */
+.swim__fish--2 {
+  --fx: 0.165;
+  --fy: 0.2;
+  --fw: 0.268;
+  --lead: 0.15;
+  --wave: 36;
+  --phase: 1.2;
+}
+
+/* Smaller fish at their own speeds, so the school spreads out */
+.swim__fish--3 {
+  --fx: 0.37;
+  --fy: 0.33;
+  --fw: 0.2;
+  --lead: 0.35;
+  --wave: 42;
+  --phase: 2.4;
+}
+
+.swim__fish--4 {
+  --fx: 0.46;
+  --fy: 0.24;
+  --fw: 0.17;
+  --lead: 0.7;
+  --wave: 48;
+  --phase: 3.6;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .swim {
+    display: none;
+  }
 }
 
 /* Hero sizes its content to the remaining section height */
@@ -179,11 +291,7 @@ main {
   flex-direction: column;
   padding: calc(var(--nav-height) + var(--space-lg)) var(--space-3xl)
     var(--space-2xl);
-  /* Decorative image only; the gradient comes from main */
-  background-image: url("/landing_background.png");
-  background-repeat: no-repeat;
-  background-position: right bottom;
-  background-size: clamp(380px, 45vw, 50vw);
+  /* Background gradient comes from main; fish art is the fixed .swim layer */
   color: var(--color-text-primary);
   box-sizing: border-box;
 }
@@ -962,10 +1070,10 @@ a.hero__cta {
   }
 }
 
-/* Reduce hero background image size on short viewports */
+/* Reduce fish image size on short viewports */
 @media (max-height: 700px) {
-  .hero {
-    background-size: clamp(240px, 36vw, 44vw);
+  .swim {
+    --swim-size: clamp(240px, 36vw, 44vw);
   }
 }
 
@@ -1297,11 +1405,5 @@ a.hero__cta {
     letter-spacing: 0.2em;
     text-transform: none;
     margin: 0;
-  }
-}
-
-@media (max-width: 400px) {
-  .hero {
-    background-position: calc(100% + 28px) calc(100% + 36px);
   }
 }
