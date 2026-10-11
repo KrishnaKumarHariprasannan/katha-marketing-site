@@ -12,7 +12,7 @@
   --text-dim: rgba(255, 255, 255, 0.9);
 
   /* Gradients */
-  --grad-hero: linear-gradient(135deg, #431043 0%, #d34681 100%);
+  --grad-hero: linear-gradient(135deg, #431043 0%, #d34681 50%, #431043 100%);
   --grad-accent: linear-gradient(135deg, #fe696e, #e5e900, #018fa6);
   --grad-pastel: linear-gradient(135deg, #ffda6f, #ff7eb3, #57e8ff);
 
@@ -119,6 +119,13 @@ main > section {
   min-height: 100svh;
 }
 
+/* One continuous gradient behind every section so there are no seams where
+   one section's pink end meets the next one's dark start. Sections stay
+   transparent and only add their own decoration on top. */
+main {
+  background: var(--grad-hero);
+}
+
 /* Hero sizes its content to the remaining section height */
 .hero .section-inner {
   flex: 1;
@@ -172,14 +179,11 @@ main > section {
   flex-direction: column;
   padding: calc(var(--nav-height) + var(--space-lg)) var(--space-3xl)
     var(--space-2xl);
-  /* Layer the decorative image over the gradient */
-  background-image: url("/landing_background.png"), var(--grad-hero);
-  background-repeat: no-repeat, no-repeat;
-  background-position:
-    right bottom,
-    center;
-  /* Responsive image sizing; gradient fills container */
-  background-size: clamp(380px, 45vw, 50vw), auto;
+  /* Decorative image only; the gradient comes from main */
+  background-image: url("/landing_background.png");
+  background-repeat: no-repeat;
+  background-position: right bottom;
+  background-size: clamp(380px, 45vw, 50vw);
   color: var(--color-text-primary);
   box-sizing: border-box;
 }
@@ -414,7 +418,6 @@ a.hero__cta {
 /* Services section */
 .services {
   padding: var(--space-2xl) var(--space-3xl);
-  background: var(--grad-hero);
   color: var(--color-text-primary);
   box-sizing: border-box;
   position: relative;
@@ -584,7 +587,6 @@ a.hero__cta {
    behavior as .services so the ticker banner still anchors correctly. */
 .contact-band {
   padding: var(--space-2xl) var(--space-3xl) var(--banner-height);
-  background: var(--color-brand-purple);
   color: var(--color-text-primary);
   box-sizing: border-box;
   position: relative;
@@ -963,7 +965,7 @@ a.hero__cta {
 /* Reduce hero background image size on short viewports */
 @media (max-height: 700px) {
   .hero {
-    background-size: clamp(240px, 36vw, 44vw), auto;
+    background-size: clamp(240px, 36vw, 44vw);
   }
 }
 
@@ -1300,8 +1302,6 @@ a.hero__cta {
 
 @media (max-width: 400px) {
   .hero {
-    background-position:
-      calc(100% + 28px) calc(100% + 36px),
-      center;
+    background-position: calc(100% + 28px) calc(100% + 36px);
   }
 }

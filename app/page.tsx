@@ -5,12 +5,10 @@ import { useEffect, useRef, useState } from "react";
 
 const BOOKING_URL = "https://calendar.app.google/ErKfN8DMAmHmcnt38";
 
-// Endpoints of --grad-hero, used to tint the nav to match wherever a
-// gradient section currently sits behind it (the gradient repaints per
-// section, so a single flat color can't track it — this interpolates).
-const GRAD_START: [number, number, number] = [67, 16, 67]; // #431043
-const GRAD_END: [number, number, number] = [211, 70, 129]; // #d34681
-const CONTACT_COLOR = "rgb(61, 0, 70)"; // --color-brand-purple
+// Stops of --grad-hero (edge at 0% and 100%, peak at 50%), used to tint the
+// nav to match the page-wide gradient on <main> at the point behind the nav.
+const GRAD_EDGE: [number, number, number] = [67, 16, 67]; // #431043
+const GRAD_PEAK: [number, number, number] = [211, 70, 129]; // #d34681
 
 export default function Home() {
   const heroRef = useRef<HTMLElement | null>(null);
@@ -48,14 +46,12 @@ export default function Home() {
     };
   }, []);
 
-  // Tint the nav to match whichever section is currently behind it. Most of
+  // Tint the nav to match the page gradient currently behind it. Most of
   // the nav is a flat, unblurred color (no visible content shadow); only a
   // thin strip right below it is blurred, so content fades into that flat
   // color at the seam instead of the nav reading as a disconnected swatch.
   useEffect(() => {
-    const sections = Array.from(
-      document.querySelectorAll<HTMLElement>(".hero, #changes, #about, #services, #contact"),
-    );
+    const main = document.querySelector("main");
     // Sample at the nav's own bottom edge rather than y=0: that's the line
     // content actually crosses into the blur seam, and it gives sections a
     // little more room to register before the page runs out of scroll.
@@ -68,22 +64,18 @@ export default function Home() {
     const update = () => {
       ticking = false;
       const navEl = navRef.current;
-      if (!navEl) return;
-      for (const sec of sections) {
-        const rect = sec.getBoundingClientRect();
-        if (rect.top <= sampleY && rect.bottom > sampleY) {
-          if (sec.id === "contact") {
-            navEl.style.background = CONTACT_COLOR;
-          } else {
-            const t = Math.min(1, Math.max(0, (sampleY - rect.top) / rect.height));
-            const r = Math.round(GRAD_START[0] + (GRAD_END[0] - GRAD_START[0]) * t);
-            const g = Math.round(GRAD_START[1] + (GRAD_END[1] - GRAD_START[1]) * t);
-            const b = Math.round(GRAD_START[2] + (GRAD_END[2] - GRAD_START[2]) * t);
-            navEl.style.background = `rgb(${r}, ${g}, ${b})`;
-          }
-          break;
-        }
-      }
+      if (!navEl || !main) return;
+      const rect = main.getBoundingClientRect();
+      // --grad-hero is 135deg, so progress along it is (x + y) / (width + height)
+      // of the box. The nav is a flat color, so sample at horizontal center.
+      const t = Math.min(
+        1,
+        Math.max(0, (rect.width / 2 + (sampleY - rect.top)) / (rect.width + rect.height)),
+      );
+      // Edge -> peak -> edge: 0 at both ends of the gradient, 1 at the middle.
+      const peak = 1 - Math.abs(2 * t - 1);
+      const [r, g, b] = GRAD_EDGE.map((c, i) => Math.round(c + (GRAD_PEAK[i] - c) * peak));
+      navEl.style.background = `rgb(${r}, ${g}, ${b})`;
     };
 
     const onScroll = () => {
