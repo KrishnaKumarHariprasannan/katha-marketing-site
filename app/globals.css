@@ -22,15 +22,6 @@
   --shadow-sm: 0 10px 20px rgba(0, 0, 0, 0.35);
   --shadow-card-inset: 0 24px 50px rgba(0, 0, 0, 0.25) inset;
   --shadow-card: 0 12px 26px rgba(0, 0, 0, 0.25);
-  --glow-white-1: 0 0 12px rgba(255, 255, 255, 0.9);
-  --glow-white-2: 0 0 32px rgba(255, 255, 255, 0.7);
-  --glow-neon-1: 0 0 4px rgba(255, 221, 196, 0.9);
-  --glow-neon-2: 0 0 10px rgba(255, 221, 196, 0.8);
-  --glow-neon-3: 0 0 18px rgba(254, 105, 110, 0.65);
-  --glow-neon-4: 0 0 28px rgba(229, 233, 0, 0.45);
-  --glow-neon-5: 0 0 38px rgba(1, 143, 166, 0.35);
-  --glow-amber-1: 0 0 12px rgba(255, 196, 125, 0.35);
-  --glow-amber-2: 0 0 28px rgba(254, 105, 110, 0.25);
 
   /* Radii */
   --radius-card: 32px;
@@ -62,6 +53,36 @@
 
   /* Fixed nav */
   --nav-height: 84px;
+}
+
+/* Neon glow strength: 1 = full glow, 0 = none, anything in between scales
+   it. Set --glow on a section (or any element) to change its glow. The glow
+   shadows are declared on :root and on every section so that each one
+   picks up its own --glow. */
+:root {
+  --glow: 0;
+}
+
+#services,
+#contact {
+  --glow: 0;
+}
+
+:root,
+main > section {
+  --glow-white-1: 0 0 12px rgb(255 255 255 / calc(0.9 * var(--glow)));
+  --glow-white-2: 0 0 32px rgb(255 255 255 / calc(0.7 * var(--glow)));
+  --glow-neon-1: 0 0 4px rgb(255 221 196 / calc(0.9 * var(--glow)));
+  --glow-neon-2: 0 0 10px rgb(255 221 196 / calc(0.8 * var(--glow)));
+  --glow-neon-3: 0 0 18px rgb(254 105 110 / calc(0.65 * var(--glow)));
+  --glow-neon-4: 0 0 28px rgb(229 233 0 / calc(0.45 * var(--glow)));
+  --glow-neon-5: 0 0 38px rgb(1 143 166 / calc(0.35 * var(--glow)));
+  --glow-amber-1: 0 0 12px rgb(255 196 125 / calc(0.35 * var(--glow)));
+  --glow-amber-2: 0 0 28px rgb(254 105 110 / calc(0.25 * var(--glow)));
+  --glow-orange-1: 0 0 12px
+    color-mix(in srgb, var(--color-accent-orange-1) calc(var(--glow) * 100%), transparent);
+  --glow-orange-2: 0 0 32px
+    color-mix(in srgb, var(--color-accent-orange-1) calc(var(--glow) * 100%), transparent);
 }
 
 /* Removed unknown at-rule @theme inline; using CSS variables directly */
@@ -117,12 +138,6 @@ body {
    selector so nested <section> elements (e.g. .hero__content) are skipped. */
 main > section {
   min-height: 100svh;
-}
-
-/* Anchor links (About / Services / Contact) land with the section heading
-   below the fixed nav instead of hidden behind it. */
-main > section:not(.hero) {
-  scroll-margin-top: var(--nav-height);
 }
 
 /* One continuous gradient behind every section so there are no seams where
@@ -246,15 +261,10 @@ main {
   min-height: 0;
 }
 
-/* Fixed, always-visible nav. Its background is a flat color set by JS
-   (page.tsx) to match whatever section currently sits behind it — no blur
-   across the nav itself, so it reads as plain background, not a frosted
-   panel. .site-nav__blur is a separate, short band anchored right at the
-   nav's bottom edge: the only place blur happens, so content ramps from
-   sharp to blurred over that thin seam and then meets the flat color,
-   instead of blurring through the entire header. */
+/* Nav sits at the top of the page on a transparent background and scrolls
+   away with the content (not sticky). */
 .site-nav {
-  position: fixed;
+  position: absolute;
   top: 0;
   left: 0;
   right: 0;
@@ -264,20 +274,7 @@ main {
   align-items: center;
   padding: 0 var(--space-3xl);
   box-sizing: border-box;
-  background: #431043;
   color: var(--color-text-primary);
-}
-
-.site-nav__blur {
-  position: absolute;
-  top: 100%;
-  left: 0;
-  right: 0;
-  height: 40px;
-  backdrop-filter: blur(40px);
-  mask-image: linear-gradient(to bottom, black, transparent);
-  pointer-events: none;
-  z-index: 0;
 }
 
 .site-nav .section-inner {
@@ -438,9 +435,7 @@ main {
   letter-spacing: var(--track-xl);
   font-family: var(--font-display);
   color: var(--color-accent-orange-1);
-  text-shadow:
-    0 0 12px var(--color-accent-orange-1),
-    0 0 32px var(--color-accent-orange-1);
+  text-shadow: var(--glow-orange-1), var(--glow-orange-2);
 }
 
 .hero__description {
@@ -565,9 +560,7 @@ a.hero__cta {
   line-height: 1.3;
   font-family: var(--font-display);
   color: var(--color-accent-orange-1);
-  text-shadow:
-    0 0 12px var(--color-accent-orange-1),
-    0 0 32px var(--color-accent-orange-1);
+  text-shadow: var(--glow-orange-1), var(--glow-orange-2);
   letter-spacing: 0.01em;
 }
 
@@ -743,9 +736,7 @@ a.hero__cta {
   letter-spacing: var(--track-xl);
   font-family: var(--font-display);
   color: var(--color-accent-orange-1);
-  text-shadow:
-    0 0 12px var(--color-accent-orange-1),
-    0 0 32px var(--color-accent-orange-1);
+  text-shadow: var(--glow-orange-1), var(--glow-orange-2);
 }
 
 .services__footer-note {
@@ -994,9 +985,7 @@ a.hero__cta {
   letter-spacing: var(--track-xl);
   font-family: var(--font-display);
   color: var(--color-accent-orange-1);
-  text-shadow:
-    0 0 12px var(--color-accent-orange-1),
-    0 0 32px var(--color-accent-orange-1);
+  text-shadow: var(--glow-orange-1), var(--glow-orange-2);
 }
 
 .contact-label {

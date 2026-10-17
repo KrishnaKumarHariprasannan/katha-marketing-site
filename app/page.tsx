@@ -5,14 +5,11 @@ import { useEffect, useRef, useState } from "react";
 
 const BOOKING_URL = "https://calendar.app.google/ErKfN8DMAmHmcnt38";
 
-// Stops of --grad-hero (edge at 0% and 100%, peak at 50%), used to tint the
-// nav to match the page-wide gradient on <main> at the point behind the nav.
-const GRAD_EDGE: [number, number, number] = [67, 16, 67]; // #431043
-const GRAD_PEAK: [number, number, number] = [211, 70, 129]; // #d34681
+// Set to false to turn off the fish that swim across the page on scroll.
+const ENABLE_FISH_ANIMATION = false;
 
 export default function Home() {
   const heroRef = useRef<HTMLElement | null>(null);
-  const navRef = useRef<HTMLDivElement | null>(null);
   const swimRef = useRef<HTMLDivElement | null>(null);
   const aboutBodyRef = useRef<HTMLDivElement | null>(null);
   const contactFromRef = useRef<HTMLInputElement | null>(null);
@@ -40,55 +37,6 @@ export default function Home() {
 
     return () => {
       window.removeEventListener("scroll", onScroll);
-    };
-  }, []);
-
-  // Tint the nav to match the page gradient currently behind it. Most of
-  // the nav is a flat, unblurred color (no visible content shadow); only a
-  // thin strip right below it is blurred, so content fades into that flat
-  // color at the seam instead of the nav reading as a disconnected swatch.
-  useEffect(() => {
-    const main = document.querySelector("main");
-    // Sample at the nav's own bottom edge rather than y=0: that's the line
-    // content actually crosses into the blur seam, and it gives sections a
-    // little more room to register before the page runs out of scroll.
-    const sampleY =
-      parseFloat(
-        getComputedStyle(document.documentElement).getPropertyValue("--nav-height"),
-      ) || 84;
-    let ticking = false;
-
-    const update = () => {
-      ticking = false;
-      const navEl = navRef.current;
-      if (!navEl || !main) return;
-      const rect = main.getBoundingClientRect();
-      // --grad-hero is 135deg, so progress along it is (x + y) / (width + height)
-      // of the box. The nav is a flat color, so sample at horizontal center.
-      const t = Math.min(
-        1,
-        Math.max(0, (rect.width / 2 + (sampleY - rect.top)) / (rect.width + rect.height)),
-      );
-      // Edge -> peak -> edge: 0 at both ends of the gradient, 1 at the middle.
-      const peak = 1 - Math.abs(2 * t - 1);
-      const [r, g, b] = GRAD_EDGE.map((c, i) => Math.round(c + (GRAD_PEAK[i] - c) * peak));
-      navEl.style.background = `rgb(${r}, ${g}, ${b})`;
-    };
-
-    const onScroll = () => {
-      if (!ticking) {
-        ticking = true;
-        requestAnimationFrame(update);
-      }
-    };
-
-    update();
-    window.addEventListener("scroll", onScroll, { passive: true });
-    window.addEventListener("resize", onScroll);
-
-    return () => {
-      window.removeEventListener("scroll", onScroll);
-      window.removeEventListener("resize", onScroll);
     };
   }, []);
 
@@ -155,8 +103,7 @@ export default function Home() {
 
   return (
     <>
-      <div className="site-nav" ref={navRef}>
-        <div className="site-nav__blur" aria-hidden="true" />
+      <div className="site-nav">
         <div className="section-inner">
           <header className="hero__nav">
             <div className="hero__logo">
@@ -227,12 +174,14 @@ export default function Home() {
       </div>
 
       <main>
-      <div className="swim" ref={swimRef} aria-hidden="true">
-        <Image className="swim__fish swim__fish--1" src="/swim_fish_a.png" alt="" width={375} height={259} sizes="20vw" />
-        <Image className="swim__fish swim__fish--2" src="/swim_fish_b.png" alt="" width={289} height={217} sizes="15vw" />
-        <Image className="swim__fish swim__fish--3" src="/swim_fish_a.png" alt="" width={375} height={259} sizes="12vw" />
-        <Image className="swim__fish swim__fish--4" src="/swim_fish_b.png" alt="" width={289} height={217} sizes="10vw" />
-      </div>
+      {ENABLE_FISH_ANIMATION && (
+        <div className="swim" ref={swimRef} aria-hidden="true">
+          <Image className="swim__fish swim__fish--1" src="/swim_fish_a.png" alt="" width={375} height={259} sizes="20vw" />
+          <Image className="swim__fish swim__fish--2" src="/swim_fish_b.png" alt="" width={289} height={217} sizes="15vw" />
+          <Image className="swim__fish swim__fish--3" src="/swim_fish_a.png" alt="" width={375} height={259} sizes="12vw" />
+          <Image className="swim__fish swim__fish--4" src="/swim_fish_b.png" alt="" width={289} height={217} sizes="10vw" />
+        </div>
+      )}
       <section className="hero" ref={heroRef}>
         <div className="section-inner">
         <section className="hero__content">
