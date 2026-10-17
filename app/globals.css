@@ -284,6 +284,7 @@ main {
 }
 
 .hero {
+  position: relative; /* anchors .hero__art */
   display: flex;
   flex-direction: column;
   padding: calc(var(--nav-height) + var(--space-lg)) var(--space-3xl)
@@ -291,6 +292,26 @@ main {
   /* Background gradient comes from main; fish art is the fixed .swim layer */
   color: var(--color-text-primary);
   box-sizing: border-box;
+}
+
+/* Stream artwork in the bottom-right of the hero. Its PNG is cropped at the
+   bottom, which would show as a hard line where the hero ends, so the bottom
+   fades out into the page. z-index -2 keeps it behind the hero text and the
+   swimming fish (.swim is -1). */
+.hero__art {
+  --hero-art-fade: 30%;
+  position: absolute;
+  right: 0;
+  bottom: 0;
+  z-index: -2;
+  width: clamp(380px, 45vw, 50vw);
+  height: auto;
+  pointer-events: none;
+  mask-image: linear-gradient(
+    to bottom,
+    #000 calc(100% - var(--hero-art-fade)),
+    transparent
+  );
 }
 
 .hero__nav {

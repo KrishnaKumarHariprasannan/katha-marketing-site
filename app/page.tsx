@@ -183,6 +183,15 @@ export default function Home() {
         </div>
       )}
       <section className="hero" ref={heroRef}>
+        <Image
+          className="hero__art"
+          src="/landing_background_2x.png"
+          alt=""
+          width={2160}
+          height={2160}
+          sizes="45vw"
+          preload
+        />
         <div className="section-inner">
         <section className="hero__content">
           <div className="hero__copy">
