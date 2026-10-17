@@ -837,56 +837,37 @@ a.hero__cta {
   filter: brightness(1.05);
 }
 
-/* Flip card hover interaction for first card */
-.service-card--flip {
-  perspective: 1200px;
-  padding: 0; /* inner handles spacing */
+/* Services: every card shows its title and full description, no interaction
+   needed. One column once three narrow cards would get cramped. */
+.services__grid .service-card {
+  /* Title and description rows are shared across the cards (subgrid), so the
+     descriptions line up even when the titles wrap differently. */
+  display: grid;
+  grid-row: span 2;
+  grid-template-rows: subgrid;
+  row-gap: var(--space-md);
+  justify-items: center;
+  min-height: 0;
 }
 
-.service-card--flip .service-card__inner {
-  position: relative;
-  border-radius: 32px;
-  overflow: hidden;
-  height: 100%;
-  padding: 28px;
-  transform-style: preserve-3d;
-  transition:
-    transform 600ms cubic-bezier(0.2, 0.8, 0.2, 1),
-    box-shadow 300ms ease;
+.services__grid .service-card__title {
+  align-self: center;
 }
 
-.service-card--flip:hover .service-card__inner {
-  /* Remove hover flip/tilt; keep standard card shadow */
-  transform: none;
-  box-shadow: var(--shadow-card-inset), var(--shadow-card);
+.services__grid .service-card__detail {
+  justify-self: stretch;
 }
 
-.service-card__front,
-.service-card__back {
-  position: absolute;
-  inset: 0;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  backface-visibility: hidden;
-  transform: rotateX(0deg);
+@media (max-width: 1100px) {
+  .services__grid {
+    grid-template-columns: 1fr;
+  }
 }
 
-.service-card__front {
-  z-index: 2;
-}
-
-.service-card__back {
-  padding: 28px;
-  z-index: 1;
-  transform: none;
-  color: #ffe9e0;
-  text-align: left;
-  opacity: 0;
-  visibility: hidden;
-  transition:
-    opacity 400ms ease,
-    visibility 0s linear 400ms;
+@media (min-width: 1101px) and (max-width: 1300px) {
+  .services__grid .service-card__detail {
+    font-size: clamp(0.98rem, 1.2vw, 1.08rem);
+  }
 }
 
 .service-card__detail {
@@ -898,25 +879,73 @@ a.hero__cta {
   white-space: pre-line; /* render \n as line breaks for service details */
 }
 
-.service-card--flip:hover .service-card__front {
-  /* Hide the front/title on hover to prevent overlap */
-  display: none;
+.site-footer {
+  position: relative; /* paint above main, so the fish swim off behind it */
+  padding: var(--space-2xl) var(--space-3xl) var(--space-lg);
+  background: var(--color-brand-purple);
+  border-top: 1px solid rgba(255, 255, 255, 0.12);
+  color: var(--color-text-primary);
+  box-sizing: border-box;
 }
 
-.service-card--flip:hover .service-card__title {
-  /* Hide the title entirely when showing details */
-  display: none;
+.site-footer__grid {
+  display: grid;
+  grid-template-columns: 2fr 1fr 1fr;
+  gap: var(--space-xl);
 }
 
-.service-card--flip:hover .service-card__back {
-  opacity: 1;
-  visibility: visible;
-  transition: opacity 400ms ease;
-  /* No extra top padding needed once title is hidden */
-  padding-top: 0;
+.site-footer .hero__logo {
+  height: auto;
 }
 
-/* Removed special-case spacing: title is hidden on hover */
+/* The nav hides the wordmark on mobile; the footer keeps it */
+.site-footer .hero__logo-text {
+  display: inline;
+}
+
+.site-footer__tagline {
+  margin: var(--space-sm) 0 0;
+  font-family: var(--font-body);
+  color: var(--text-dim);
+}
+
+.site-footer__col {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  gap: var(--space-sm);
+  font-family: var(--font-body);
+}
+
+.site-footer__heading {
+  margin: 0 0 var(--space-xs);
+  font-family: var(--font-display);
+  font-size: 0.9rem;
+  font-weight: 500;
+  text-transform: uppercase;
+  letter-spacing: var(--track-md);
+  color: var(--color-accent-orange-2);
+}
+
+.site-footer__col a {
+  color: var(--text-dim);
+  text-decoration: none;
+}
+
+.site-footer__col a:hover,
+.site-footer__col a:focus-visible {
+  color: var(--color-text-primary);
+  text-decoration: underline;
+}
+
+.site-footer__legal {
+  margin: var(--space-xl) 0 0;
+  padding-top: var(--space-md);
+  border-top: 1px solid rgba(255, 255, 255, 0.12);
+  font-family: var(--font-body);
+  font-size: 0.9rem;
+  color: rgba(255, 255, 255, 0.7);
+}
 
 .service-banner__container {
   position: absolute;
@@ -1058,13 +1087,6 @@ a.hero__cta {
   .service-card {
     min-height: clamp(360px, 52vh, 460px);
   }
-  .service-card--flip .service-card__inner {
-    padding: 24px;
-  }
-  /* Title hidden on hover; no top offset needed on short viewports */
-  .service-card--flip:hover .service-card__back {
-    padding-top: 0;
-  }
   .services__grid {
     gap: var(--space-lg);
   }
@@ -1077,38 +1099,22 @@ a.hero__cta {
   }
 }
 
-@media (min-width: 821px) {
-  .services__grid {
-    display: grid !important;
-  }
-  .services__mobile-grid {
-    display: none !important;
-  }
-
-  /* Desktop hover: title hidden; show details with scroll if needed */
-  .service-card--flip:hover .service-card__back {
-    padding-top: 0;
-    height: 100%;
-    box-sizing: border-box;
-    overflow: hidden;
-  }
-}
-
-@media (min-width: 821px) and (max-width: 1300px) {
-  .service-card--flip:hover .service-card__back {
-    align-items: center;
-    justify-content: center;
-  }
-
-  .service-card--flip:hover .service-card__detail {
-    font-size: clamp(0.98rem, 1.2vw, 1.08rem);
-    width: 100%;
-    max-height: 100%;
-    overflow-y: auto;
-  }
-}
-
 @media (max-width: 820px) {
+  .site-footer {
+    padding: var(--space-xl) 20px var(--space-lg);
+  }
+  .site-footer__grid {
+    grid-template-columns: 1fr;
+    justify-items: center;
+    text-align: center;
+  }
+  .site-footer__col {
+    align-items: center;
+  }
+  .site-footer__legal {
+    text-align: center;
+  }
+
   .services__footer-note {
     font-size: 1em;
     text-align: center;
@@ -1135,129 +1141,8 @@ a.hero__cta {
     letter-spacing: 0.2em;
     text-transform: none;
   }
-  .services__grid {
-    display: none !important;
-  }
-  .services__mobile-grid {
-    display: grid !important;
-    grid-template-columns: 1fr;
-    gap: var(--space-md);
-  }
-
   .service-card {
     min-height: 360px;
-  }
-
-  .services__mobile-button {
-    display: inline-block;
-    width: 100%;
-    padding: 14px 22px;
-    border-radius: var(--radius-label);
-    text-align: center;
-    color: var(--color-text-secondary);
-    text-transform: uppercase;
-    letter-spacing: var(--track-sm);
-    font-family: var(--font-display);
-    background: none;
-    border: none;
-    box-shadow: var(--glow-amber-1), var(--glow-amber-2);
-    position: relative;
-  }
-  .services__mobile-button::before {
-    content: "";
-    position: absolute;
-    inset: 0;
-    padding: 2px;
-    border-radius: inherit;
-    background: var(--grad-accent);
-    -webkit-mask:
-      linear-gradient(#000 0 0) content-box,
-      linear-gradient(#000 0 0);
-    mask:
-      linear-gradient(#000 0 0) content-box,
-      linear-gradient(#000 0 0);
-    -webkit-mask-composite: xor;
-    mask-composite: exclude;
-    pointer-events: none;
-  }
-  .services__mobile-button:hover {
-    filter: brightness(1.05);
-  }
-
-  .services__overlay {
-    display: flex;
-    position: fixed;
-    inset: 0;
-    background: rgba(0, 0, 0, 0.55);
-    backdrop-filter: blur(6px);
-    z-index: 1000;
-    box-shadow: var(--shadow-md);
-    align-items: center;
-    justify-content: center;
-    padding: var(--space-xl);
-    box-sizing: border-box;
-  }
-  .services__overlay-content {
-    max-width: 680px;
-    width: 100%;
-    background: rgba(255, 255, 255, 0.08);
-    border: 1px solid rgba(255, 255, 255, 0.15);
-    border-radius: var(--radius-card);
-    padding: 24px 28px;
-    color: var(--color-text-primary);
-    box-shadow: var(--shadow-card-inset), var(--shadow-card);
-  }
-  .services__overlay-content .service-card__title {
-    display: none;
-  }
-  .services__overlay-close {
-    position: absolute;
-    top: var(--space-lg);
-    right: var(--space-lg);
-    width: 44px;
-    height: 44px;
-    border: none;
-    border-radius: var(--radius-pill);
-    cursor: pointer;
-    color: var(--color-text-primary);
-    font-size: 1.6rem;
-    line-height: 1;
-    background: rgba(255, 255, 255, 0.12);
-    box-shadow: var(--shadow-sm);
-  }
-  .services__overlay-close:hover {
-    filter: brightness(1.05);
-  }
-
-  /* Mobile cards: show the detailed/back state by default */
-  .service-card__front,
-  .service-card__back {
-    position: static !important;
-    inset: auto !important;
-    transform: none !important;
-    backface-visibility: visible !important;
-  }
-  .service-card__back {
-    opacity: 1 !important;
-    visibility: visible !important;
-    transition: none !important;
-    padding: 12px 28px 28px !important;
-    display: block !important;
-  }
-  .service-card--flip .service-card__inner {
-    height: auto !important;
-    padding: 24px !important;
-    transform: none !important;
-    transition: none !important;
-    box-shadow: var(--shadow-card-inset), var(--shadow-card) !important;
-  }
-  .service-card--flip:hover .service-card__inner {
-    transform: none !important;
-  }
-  .service-card--flip:hover .service-card__back {
-    opacity: 1 !important;
-    visibility: visible !important;
-    padding-top: 0 !important;
   }
 }
 

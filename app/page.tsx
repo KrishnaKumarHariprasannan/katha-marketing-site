@@ -21,10 +21,6 @@ export default function Home() {
   const [menuOpen, setMenuOpen] = useState(false);
   const [aboutExpanded, setAboutExpanded] = useState(false);
   const aboutCollapseTimeoutRef = useRef<number | null>(null);
-  const [activeService, setActiveService] = useState<null | {
-    title: string;
-    detail: string;
-  }>(null);
 
   useEffect(() => {
     return () => {
@@ -127,9 +123,9 @@ export default function Home() {
     };
   }, []);
 
-  // Disable page scroll when either the hamburger menu or services overlay is open
+  // Disable page scroll while the hamburger menu is open
   useEffect(() => {
-    if (menuOpen || activeService) {
+    if (menuOpen) {
       document.body.style.overflow = "hidden";
     } else {
       document.body.style.overflow = "";
@@ -137,7 +133,7 @@ export default function Home() {
     return () => {
       document.body.style.overflow = "";
     };
-  }, [menuOpen, activeService]);
+  }, [menuOpen]);
 
   const services = [
     {
@@ -400,61 +396,12 @@ export default function Home() {
 
         <div className="services__grid">
           {services.map((svc) => (
-            <article
-              key={svc.title}
-              className="service-card service-card--flip"
-            >
-              <div className="service-card__inner">
-                <div className="service-card__front">
-                  <h3 className="service-card__title">{svc.title}</h3>
-                </div>
-                <div className="service-card__back" aria-hidden="false">
-                  <p className="service-card__detail">{svc.detail}</p>
-                </div>
-              </div>
+            <article key={svc.title} className="service-card">
+              <h3 className="service-card__title">{svc.title}</h3>
+              <p className="service-card__detail">{svc.detail}</p>
             </article>
           ))}
         </div>
-
-        {/* Mobile grid buttons */}
-        <div className="services__mobile-grid">
-          {services.map((svc) => (
-            <button
-              key={`btn-${svc.title}`}
-              className="services__mobile-button"
-              onClick={() => setActiveService(svc)}
-            >
-              {svc.title}
-            </button>
-          ))}
-        </div>
-
-        {/* Mobile service overlay */}
-        {activeService && (
-          <div
-            className="services__overlay"
-            role="dialog"
-            aria-modal="true"
-            aria-label={`Details for ${activeService.title}`}
-            onClick={(e) => {
-              if (e.currentTarget === e.target) setActiveService(null);
-            }}
-          >
-            <button
-              className="services__overlay-close"
-              aria-label="Close"
-              onClick={() => setActiveService(null)}
-            >
-              ×
-            </button>
-            <div className="services__overlay-content">
-              <h3 className="service-card__title" style={{ marginTop: 0 }}>
-                {activeService.title}
-              </h3>
-              <p className="service-card__detail">{activeService.detail}</p>
-            </div>
-          </div>
-        )}
 
         <p className="services__footer-note">
           We don’t offer a one-size-fits-all service.
@@ -653,6 +600,43 @@ export default function Home() {
         </button>
       )}
       </main>
+
+      <footer className="site-footer">
+        <div className="section-inner">
+          <div className="site-footer__grid">
+            <div className="site-footer__brand">
+              <div className="hero__logo">
+                <Image
+                  src="/logo_transparent.png"
+                  alt=""
+                  className="hero__logo-mark"
+                  width={24}
+                  height={24}
+                />
+                <span className="hero__logo-text">KATHA</span>
+              </div>
+              <p className="site-footer__tagline">Build your story with us.</p>
+            </div>
+            <nav className="site-footer__col" aria-label="Footer">
+              <h2 className="site-footer__heading">Explore</h2>
+              <a href="#about">About</a>
+              <a href="#services">Services</a>
+              <a href="#contact">Contact</a>
+            </nav>
+            <div className="site-footer__col">
+              <h2 className="site-footer__heading">Get in touch</h2>
+              <a href="mailto:hello@katha.io">hello@katha.io</a>
+              <a href={BOOKING_URL} target="_blank" rel="noopener noreferrer">
+                Book a 15-min call
+              </a>
+            </div>
+          </div>
+          <p className="site-footer__legal">
+            © <span suppressHydrationWarning>{new Date().getFullYear()}</span>{" "}
+            Katha. All rights reserved.
+          </p>
+        </div>
+      </footer>
     </>
   );
 }
