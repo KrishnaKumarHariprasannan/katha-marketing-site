@@ -40,11 +40,6 @@ export default function ServicesPage() {
                   {svc.title}
                 </h2>
                 <p className="service-card__detail">{svc.intro.description}</p>
-                <ul className="service-card__list">
-                  {svc.intro.bullets.map((bullet) => (
-                    <li key={bullet}>{bullet}</li>
-                  ))}
-                </ul>
                 <span className="service-card__more" aria-hidden="true">
                   Find out more <span className="service-card__arrow">→</span>
                 </span>
@@ -105,7 +100,7 @@ export default function ServicesPage() {
               <div className="service-detail__actions">
                 <BookingLink
                   className="hero__cta"
-                  label={`Book a free ${BOOKING_MINUTES}-min session`}
+                  label={`Book a ${BOOKING_MINUTES}-min session`}
                 />
                 <Link
                   href="/#contact"

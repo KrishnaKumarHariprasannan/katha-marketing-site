@@ -10,7 +10,6 @@ export type Service = {
   title: string;
   intro: {
     description: string;
-    bullets: string[];
   };
   detail: {
     tagline: string;
@@ -28,12 +27,6 @@ export const services: Service[] = [
     intro: {
       description:
         "Before we write a single word or design a single pixel, we do our homework. We dig into your audience, your competitors, and your goals to build a strategy that actually holds up, not just a mood board and a prayer.",
-      bullets: [
-        "Content marketing & GTM strategy",
-        "Market research & media monitoring",
-        "SEO audits & keyword research",
-        "Content calendars that keep everyone (including us) accountable",
-      ],
     },
     detail: {
       tagline: "The homework nobody sees, but everyone feels.",
@@ -53,7 +46,7 @@ export const services: Service[] = [
         "A clear, evidence-backed direction so every piece of content, campaign, and creative decision that follows already knows exactly where it’s headed.",
       cta: {
         heading: "Not sure where your strategy stands? Let’s find out together.",
-        body: `Whether you’re starting from scratch or sitting on a pile of research nobody’s used, we’ll help you make sense of it. Book a free ${BOOKING_MINUTES}-minute session and let’s talk through what your organisation actually needs.`,
+        body: `Whether you’re starting from scratch or sitting on a pile of research nobody’s used, we’ll help you make sense of it. Let’s talk through what your organisation actually needs.`,
       },
     },
   },
@@ -63,12 +56,6 @@ export const services: Service[] = [
     intro: {
       description:
         "This is where your story gets a voice, and a megaphone. We help you figure out what to say, how to say it, and where to say it so it actually lands with the people who need to hear it.",
-      bullets: [
-        "Branding & narrative strategy",
-        "Campaign creation & paid marketing",
-        "Newsletters, case studies, and website copy that earns the scroll",
-        "Community management & email marketing",
-      ],
     },
     detail: {
       tagline: "Your story, but louder, sharper, and impossible to ignore.",
@@ -88,7 +75,7 @@ export const services: Service[] = [
         "A brand and message that’s consistent, magnetic, and built to actually reach and move your audience.",
       cta: {
         heading: "Got a brand that needs a bit of a shake-up?",
-        body: `Whether you’re rebranding, launching, or just tired of sounding like everyone else, we’re happy to talk it through. Grab a free ${BOOKING_MINUTES}-minute session and let’s see what fits.`,
+        body: `Whether you’re rebranding, launching, or just tired of sounding like everyone else, we’re happy to talk it through.`,
       },
     },
   },
@@ -98,12 +85,6 @@ export const services: Service[] = [
     intro: {
       description:
         "Great strategy deserves a great outfit. We turn ideas into visuals, clean, consistent, and just a little bit delightful, across every platform your audience actually uses.",
-      bullets: [
-        "Brand kits, logos & visual identity systems",
-        "Web design & presentation decks",
-        "Social media posts, brochures & flyers",
-        "Video editing and scripting, for when static just won’t cut it",
-      ],
     },
     detail: {
       tagline: "Because even the best ideas deserve a great outfit.",
@@ -124,7 +105,7 @@ export const services: Service[] = [
         "Design that doesn’t just look good, it works, consistently, everywhere your story shows up.",
       cta: {
         heading: "Let’s chat about what you’ve got and what’s missing.",
-        body: `Book a free ${BOOKING_MINUTES}-minute session, or drop us a line.`,
+        body: ``,
       },
     },
   },

@@ -941,18 +941,15 @@ main > section.proof {
 /* Contact is only as tall as its content. The gap between the form and the
    banner (which is pinned to the section's bottom edge) matches the gap
    above the heading, instead of stretching to fill the viewport. */
+/* The content stays within --content-max via .section-inner; the section
+   itself (and the ticker pinned to its bottom edge) spans the full width. */
 main > section.contact-band {
   min-height: auto;
-  /* Capped like the other sections' content: at most --content-max of content
-     plus the side padding, and centred. The ticker pinned to the bottom edge
-     follows the same width. */
-  max-width: calc(var(--content-max) + 2 * var(--space-3xl));
-  margin-inline: auto;
 }
 
 /* On desktop Contact fits exactly one screen, ticker included: the form,
-   title and spacing scale with the viewport (--fit) and the content is
-   centred in the space above the ticker. Below 1100px it flows normally. */
+   title and spacing scale with the viewport (--fit); the title sits at the top
+   and the form is centred in the space above the ticker. Below 1100px it flows normally. */
 @media (min-width: 1101px) {
   main > section.contact-band {
     --ct: clamp(0.7rem, min(2.3svh, 1.45vw), 1.4rem);
@@ -960,9 +957,24 @@ main > section.contact-band {
     height: 100svh;
     display: flex;
     flex-direction: column;
-    justify-content: center;
-    padding-top: var(--space-sm);
+    padding-top: clamp(var(--space-sm), 3.5svh, var(--space-xl));
     padding-bottom: calc(var(--banner-height) + var(--space-sm));
+  }
+
+  main > section#contact.contact-band .services__header {
+    margin-bottom: calc(var(--fit) * 0.6);
+  }
+
+  /* Title stays at the top; the form is centred in the space below it */
+  main > section.contact-band .section-inner {
+    flex: 1;
+    display: flex;
+    flex-direction: column;
+    min-height: 0;
+  }
+
+  main > section.contact-band .section-inner > div {
+    margin-block: auto;
   }
 
   /* Same title size as the Services and About pages */
@@ -1001,7 +1013,7 @@ main > section.contact-band {
     padding: calc(var(--fit) * 0.6) calc(var(--fit) * 0.9);
   }
 
-  main > section.contact-band .contact-textarea {
+  main > section#contact.contact-band .contact-textarea {
     min-height: calc(var(--fit) * 5.2);
   }
 
@@ -1218,23 +1230,6 @@ main > section.contact-band {
   outline-offset: 4px;
 }
 
-.service-card__list {
-  align-self: stretch;
-  margin: 0;
-  padding-left: 1.25rem;
-  list-style: disc;
-  display: grid;
-  gap: var(--space-sm);
-  font-family: var(--font-body);
-  font-size: 1.05rem;
-  line-height: 1.5;
-  color: var(--color-text-primary);
-}
-
-.service-card__list li::marker {
-  color: var(--color-accent-orange-1);
-}
-
 .service-card__more {
   align-self: stretch;
   margin-top: auto;
@@ -1259,7 +1254,7 @@ main > section.contact-band {
 
 @media (min-width: 1101px) {
   .services__grid .service-card {
-    grid-row: span 4;
+    grid-row: span 3;
     grid-template-rows: subgrid;
     display: grid;
     row-gap: var(--space-md);
@@ -1270,10 +1265,6 @@ main > section.contact-band {
   }
   .services__grid .service-card__detail {
     justify-self: stretch;
-  }
-  .service-card__list {
-    justify-self: stretch;
-    align-content: start;
   }
   .service-card__more {
     justify-self: stretch;
@@ -1287,8 +1278,7 @@ main > section.contact-band {
 }
 
 @media (min-width: 1101px) and (max-width: 1300px) {
-  .services__grid .service-card__detail,
-  .service-card__list {
+  .services__grid .service-card__detail {
     font-size: clamp(0.98rem, 1.2vw, 1.05rem);
   }
 }
@@ -1333,7 +1323,7 @@ main > section.contact-band {
   }
 
   main > section.services-intro .service-card {
-    padding: var(--space-sm) var(--space-lg);
+    padding: var(--space-md) var(--space-lg);
     gap: calc(var(--fit) * 0.75);
     row-gap: calc(var(--fit) * 0.75);
   }
@@ -1345,19 +1335,13 @@ main > section.contact-band {
   }
 
   main > section.services-intro .service-card__detail {
-    font-size: var(--fit);
+    font-size: min(1.4rem, calc(var(--fit) * 1.25));
     line-height: 1.5;
   }
 
-  main > section.services-intro .service-card__list {
-    gap: calc(var(--fit) * 0.4);
-    font-size: calc(var(--fit) * 0.95);
-    line-height: 1.4;
-  }
-
   main > section.services-intro .service-card__more {
-    padding-top: 0;
-    font-size: calc(var(--fit) * 0.9);
+    padding-top: calc(var(--fit) * 0.5);
+    font-size: calc(var(--fit) * 1.05);
   }
 
   main > section.services-intro .services__footer-note {
