@@ -1,7 +1,8 @@
 import type { Metadata } from "next";
 import Link from "next/link";
 import { services } from "@/lib/services";
-import { BOOKING_URL } from "@/lib/site";
+import BookingLink from "@/components/BookingLink";
+import { BOOKING_MINUTES } from "@/lib/site";
 
 export const metadata: Metadata = {
   title: "Services",
@@ -102,14 +103,10 @@ export default function ServicesPage() {
                 <p className="service-detail__text">{svc.detail.cta.body}</p>
               </div>
               <div className="service-detail__actions">
-                <a
+                <BookingLink
                   className="hero__cta"
-                  href={BOOKING_URL}
-                  target="_blank"
-                  rel="noopener noreferrer"
-                >
-                  Book a free 20-min session
-                </a>
+                  label={`Book a free ${BOOKING_MINUTES}-min session`}
+                />
                 <Link
                   href="/#contact"
                   className="service-detail__secondary-link"

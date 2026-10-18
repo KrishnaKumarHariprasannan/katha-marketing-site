@@ -1,6 +1,6 @@
 import Image from "next/image";
+import BookingLink from "@/components/BookingLink";
 import ContactSection from "@/components/ContactSection";
-import { BOOKING_URL } from "@/lib/site";
 
 const builtFor = [
   { label: "Social enterprises", image: "/built-for/social-enterprises.jpg" },
@@ -66,14 +66,7 @@ export default function Home() {
               </p>
 
               <div className="hero__actions">
-                <a
-                  className="hero__cta"
-                  href={BOOKING_URL}
-                  target="_blank"
-                  rel="noopener noreferrer"
-                >
-                  Book a 15-min call
-                </a>
+                <BookingLink className="hero__cta" />
               </div>
             </div>
           </section>

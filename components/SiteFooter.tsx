@@ -1,6 +1,7 @@
 import Image from "next/image";
 import Link from "next/link";
-import { BOOKING_URL, CONTACT_EMAIL } from "@/lib/site";
+import BookingLink from "@/components/BookingLink";
+import { CONTACT_EMAIL } from "@/lib/site";
 
 export default function SiteFooter() {
   return (
@@ -29,9 +30,7 @@ export default function SiteFooter() {
           <div className="site-footer__col">
             <h2 className="site-footer__heading">Get in touch</h2>
             <a href={`mailto:${CONTACT_EMAIL}`}>{CONTACT_EMAIL}</a>
-            <a href={BOOKING_URL} target="_blank" rel="noopener noreferrer">
-              Book a 15-min call
-            </a>
+            <BookingLink />
           </div>
         </div>
         <p className="site-footer__legal">

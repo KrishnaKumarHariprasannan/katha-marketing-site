@@ -1,3 +1,5 @@
+import { BOOKING_MINUTES } from "@/lib/site";
+
 // Content for the Services page. Each entry becomes:
 //  - an intro card at the top of /services (the whole card links down), and
 //  - a detail section with the matching id (/services#<slug>), and
@@ -51,7 +53,7 @@ export const services: Service[] = [
         "A clear, evidence-backed direction so every piece of content, campaign, and creative decision that follows already knows exactly where it’s headed.",
       cta: {
         heading: "Not sure where your strategy stands? Let’s find out together.",
-        body: "Whether you’re starting from scratch or sitting on a pile of research nobody’s used, we’ll help you make sense of it. Book a free 20-minute session and let’s talk through what your organisation actually needs.",
+        body: `Whether you’re starting from scratch or sitting on a pile of research nobody’s used, we’ll help you make sense of it. Book a free ${BOOKING_MINUTES}-minute session and let’s talk through what your organisation actually needs.`,
       },
     },
   },
@@ -86,7 +88,7 @@ export const services: Service[] = [
         "A brand and message that’s consistent, magnetic, and built to actually reach and move your audience.",
       cta: {
         heading: "Got a brand that needs a bit of a shake-up?",
-        body: "Whether you’re rebranding, launching, or just tired of sounding like everyone else, we’re happy to talk it through. Grab a free 20-minute session and let’s see what fits.",
+        body: `Whether you’re rebranding, launching, or just tired of sounding like everyone else, we’re happy to talk it through. Grab a free ${BOOKING_MINUTES}-minute session and let’s see what fits.`,
       },
     },
   },
@@ -122,7 +124,7 @@ export const services: Service[] = [
         "Design that doesn’t just look good, it works, consistently, everywhere your story shows up.",
       cta: {
         heading: "Let’s chat about what you’ve got and what’s missing.",
-        body: "Book a free 20-minute session, or drop us a line.",
+        body: `Book a free ${BOOKING_MINUTES}-minute session, or drop us a line.`,
       },
     },
   },

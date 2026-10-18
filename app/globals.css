@@ -9,7 +9,7 @@
   --color-brand-purple: #3d0046;
   --color-brand-plum: #431043;
   --color-brand-cream: #f7f2ea;
-  --color-accent-raspberry: #a63a68; /* 5.5:1 on --color-brand-cream */
+  --color-accent-raspberry: #a63a68; /* 6.2:1 on white, 5.5:1 on --color-brand-cream */
   --color-accent-orange-1: #ffb59a; /* lifted from #ff9b73 so it holds up on the lighter middle of the page gradient */
   --color-accent-orange-2: #ffbfa8;
   --text-dim: rgba(255, 255, 255, 0.9);
@@ -551,7 +551,6 @@ main {
 
 .hero__subtitle {
   margin: 0 0 var(--space-xl);
-  font-size: 1.8em;
   text-transform: uppercase;
   letter-spacing: var(--track-xl);
   font-family: var(--font-display);
@@ -612,9 +611,9 @@ a.hero__cta {
   text-decoration: none;
 }
 
-/* Cream band between the hero and Contact: "Built for" (four audience tiles)
-   followed by "What changes" (title / description rows). Dark plum text on
-   --color-brand-cream. */
+/* Plain white band between the hero and Contact: "Built for" (four audience
+   tiles) followed by "What changes" (title / description rows). Dark plum
+   text on white. */
 main > section.proof {
   --color-divider: rgba(67, 16, 67, 0.18);
   /* "We partner with" + "What changes" are one section: at least a full
@@ -625,7 +624,7 @@ main > section.proof {
   flex-direction: column;
   justify-content: center;
   padding: var(--space-3xl) var(--space-3xl);
-  background: var(--color-brand-cream);
+  background: #fff;
   color: var(--color-brand-plum);
   box-sizing: border-box;
 }
@@ -663,8 +662,8 @@ main > section.proof {
    backgrounds read as a set. */
 .built-for__frame {
   padding: var(--space-sm);
-  background: #fff;
-  border: 1px solid rgba(67, 16, 67, 0.1);
+  background: var(--color-brand-purple);
+  border: 2px solid var(--color-brand-purple);
   border-radius: var(--radius-card);
   box-shadow: 0 10px 24px rgba(67, 16, 67, 0.12);
 }
@@ -680,7 +679,7 @@ main > section.proof {
 
 .built-for__label {
   font-family: var(--font-display);
-  font-size: clamp(1.15rem, 1.5vw, 1.4rem);
+  font-size: 1.4rem; /* body text in this section matches the hero (1.4rem) */
   font-weight: 500;
   line-height: 1.3;
   letter-spacing: 0.02em;
@@ -696,7 +695,7 @@ main > section.proof {
   gap: var(--space-xl);
   align-items: baseline;
   padding: var(--space-lg) 0;
-  border-bottom: 1px solid rgba(67, 16, 67, 0.18);
+  border-bottom: 1px solid var(--color-divider);
 }
 
 .change-row__title {
@@ -712,7 +711,7 @@ main > section.proof {
 .change-row__detail {
   margin: 0;
   font-family: var(--font-body);
-  font-size: clamp(1.05rem, 1.6vw, 1.15rem);
+  font-size: 1.4rem;
   line-height: 1.6;
   color: rgba(67, 16, 67, 0.88);
 }
@@ -733,12 +732,80 @@ main > section.proof {
     grid-template-columns: repeat(2, minmax(0, 1fr));
     gap: var(--space-md);
   }
-  .built-for__label {
-    font-size: 1.05rem;
-  }
   .change-row {
     grid-template-columns: 1fr;
     gap: var(--space-sm);
+  }
+}
+
+/* On desktop the whole band ("We work with" + "What changes") is sized to fit
+   exactly one screen. Body text is 1.4rem like the hero, scaling down on
+   shorter screens (--pf); the tiles are sized from the viewport height and
+   are centred in a row. Below 1100px it flows at natural height. */
+@media (min-width: 1101px) {
+  main > section.proof {
+    --pf: clamp(0.7rem, min(2.3svh, 1.45vw), 1.4rem);
+    --tile: min(23svh, 18vw);
+    height: 100svh;
+    min-height: 0;
+    padding-top: var(--space-md);
+    padding-bottom: var(--space-md);
+  }
+
+  main > section.proof .proof__title {
+    font-size: clamp(1.3rem, 4.2svh, 2.6rem);
+    padding-bottom: calc(var(--pf) * 0.35);
+  }
+
+  main > section.proof .built-for__grid {
+    grid-template-columns: repeat(4, var(--tile));
+    justify-content: center;
+    gap: var(--space-lg);
+    margin-top: calc(var(--pf) * 0.9);
+  }
+
+  main > section.proof .built-for__item {
+    gap: calc(var(--pf) * 0.5);
+  }
+
+  main > section.proof .built-for__frame {
+    padding: calc(var(--pf) * 0.4);
+  }
+
+  main > section.proof .built-for__label {
+    font-size: var(--pf);
+    line-height: 1.25;
+  }
+
+  main > section.proof .proof__block {
+    margin-top: calc(var(--pf) * 1.6);
+  }
+
+  main > section.proof .changes__list {
+    margin-top: calc(var(--pf) * 0.5);
+  }
+
+  main > section.proof .change-row {
+    padding: calc(var(--pf) * 0.55) 0;
+    gap: var(--space-lg);
+  }
+
+  main > section.proof .change-row__title {
+    font-size: calc(var(--pf) * 1.3);
+    line-height: 1.25;
+  }
+
+  main > section.proof .change-row__detail {
+    font-size: var(--pf);
+    line-height: 1.45;
+  }
+}
+
+/* Phones: same step down as the hero text (1.4rem -> 1rem) */
+@media (max-width: 640px) {
+  .built-for__label,
+  .change-row__detail {
+    font-size: 1rem;
   }
 }
 
@@ -762,12 +829,6 @@ main > section.proof {
 .proof__title {
   padding-bottom: var(--space-sm);
   border-bottom: 1px solid var(--color-divider);
-}
-
-/* Contact is centred: keep its rule as wide as the form card beneath it */
-.contact-band .contact__title {
-  max-width: 40rem;
-  margin-inline: auto;
 }
 
 /* Services intro: let the rule run the full width of the cards below */
@@ -882,6 +943,89 @@ main > section.proof {
    above the heading, instead of stretching to fill the viewport. */
 main > section.contact-band {
   min-height: auto;
+  /* Capped like the other sections' content: at most --content-max of content
+     plus the side padding, and centred. The ticker pinned to the bottom edge
+     follows the same width. */
+  max-width: calc(var(--content-max) + 2 * var(--space-3xl));
+  margin-inline: auto;
+}
+
+/* On desktop Contact fits exactly one screen, ticker included: the form,
+   title and spacing scale with the viewport (--fit) and the content is
+   centred in the space above the ticker. Below 1100px it flows normally. */
+@media (min-width: 1101px) {
+  main > section.contact-band {
+    --ct: clamp(0.7rem, min(2.3svh, 1.45vw), 1.4rem);
+    --fit: calc(var(--ct) * 0.75);
+    height: 100svh;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    padding-top: var(--space-sm);
+    padding-bottom: calc(var(--banner-height) + var(--space-sm));
+  }
+
+  /* Same title size as the Services and About pages */
+  main > section.contact-band .contact__title {
+    font-size: clamp(1.4rem, 4.6svh, 2.6rem);
+    padding-bottom: calc(var(--fit) * 0.35);
+  }
+
+  main > section.contact-band .contact__subtitle {
+    letter-spacing: var(--track-lg);
+    margin-bottom: calc(var(--fit) * 0.9);
+  }
+
+  main > section.contact-band .contact__card {
+    padding: calc(var(--fit) * 1.1) calc(var(--fit) * 1.4);
+  }
+
+  main > section.contact-band .contact__card > div {
+    gap: calc(var(--fit) * 0.7) !important;
+  }
+
+  main > section.contact-band .service-card__title {
+    padding: calc(var(--fit) * 0.55) calc(var(--fit) * 1.4);
+  }
+
+  main > section.contact-band .contact-form {
+    gap: calc(var(--fit) * 0.6);
+  }
+
+  main > section.contact-band .contact-label {
+    gap: calc(var(--fit) * 0.25);
+  }
+
+  main > section.contact-band .contact-input,
+  main > section.contact-band .contact-textarea {
+    padding: calc(var(--fit) * 0.6) calc(var(--fit) * 0.9);
+  }
+
+  main > section.contact-band .contact-textarea {
+    min-height: calc(var(--fit) * 5.2);
+  }
+
+  main > section.contact-band .contact-form .hero__cta {
+    height: calc(var(--fit) * 3.2);
+    margin-top: calc(var(--fit) * 0.4);
+  }
+}
+
+/* All Contact text shares one size (--ct): 1.4rem like the hero, 1rem on
+   phones, scaled down on short desktop screens (see the block above). */
+.contact-band {
+  --ct: 1.4rem;
+}
+
+.contact__subtitle,
+.contact-band .service-card__title,
+.contact__message-label,
+.contact-label,
+.contact-input,
+.contact-textarea,
+.contact-band .contact-form .hero__cta,
+.contact-status {
+  font-size: var(--ct);
 }
 
 .contact-band {
@@ -915,7 +1059,6 @@ main > section.contact-band {
 
 #contact .services__header {
   max-width: none;
-  text-align: center;
 }
 
 #contact .contact-form {
@@ -1582,7 +1725,6 @@ main > section.contact-band {
 
 .contact__subtitle {
   margin: 0 0 var(--space-xl);
-  font-size: 1.8em;
   text-transform: uppercase;
   letter-spacing: var(--track-xl);
   font-family: var(--font-display);
@@ -1768,10 +1910,6 @@ main > section.contact-band {
   .hero__menu-panel {
     display: none !important;
   }
-  /* Desktop-only larger size for contact message label */
-  .contact__message-label {
-    font-size: clamp(1.2rem, 1.4vw, 1.6rem);
-  }
 }
 
 /* Mobile nav: hide desktop menu, show burger */
@@ -1862,8 +2000,10 @@ main > section.contact-band {
     font-size: clamp(1.6rem, 7vw, 2.2rem);
     letter-spacing: 0.1em;
   }
+  .contact-band {
+    --ct: 1rem;
+  }
   .contact__subtitle {
-    font-size: 1rem;
     letter-spacing: 0.2em;
     text-transform: none;
     margin: 0;
