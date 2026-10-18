@@ -13,7 +13,7 @@ export default function ServicesPage() {
   return (
     <>
       {/* Intro: one card per service; the whole card links to its section */}
-      <section id="services" className="services section--top">
+      <section id="services" className="services section--top services-intro">
         <div className="section-inner">
           <header className="services__header">
             <h1 className="services__title">Services</h1>
