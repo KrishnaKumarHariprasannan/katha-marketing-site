@@ -119,9 +119,7 @@ export default function Home() {
             </div>
             <nav className="hero__menu">
               <a href="#about">About</a>
-              <span className="hero__menu-separator">|</span>
               <a href="#services">Services</a>
-              <span className="hero__menu-separator">|</span>
               <a href="#contact">Contact</a>
             </nav>
             {/* Mobile burger + panel */}
@@ -229,7 +227,7 @@ export default function Home() {
             </h2>
           </header>
 
-          <div className="changes__grid">
+          <div className="changes__list">
             {[
               {
                 title:
@@ -254,7 +252,7 @@ export default function Home() {
                   "We streamline communication and marketing for you, freeing your team to focus on your mission.",
               },
             ].map((item) => (
-              <article className="change-card" key={item.title}>
+              <article className="change-row" key={item.title}>
                 <h3 className="about__lead">{item.title}</h3>
                 <p className="service-card__detail">{item.detail}</p>
               </article>
