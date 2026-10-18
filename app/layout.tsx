@@ -1,6 +1,10 @@
 import type { Metadata } from "next";
 import { Analytics } from "@vercel/analytics/next";
 import { Quicksand, Mulish } from "next/font/google";
+import BackToTop from "@/components/BackToTop";
+import FishLayer from "@/components/FishLayer";
+import SiteFooter from "@/components/SiteFooter";
+import SiteNav from "@/components/SiteNav";
 import "./globals.css";
 
 const quicksand = Quicksand({
@@ -18,7 +22,7 @@ const mulish = Mulish({
 });
 
 export const metadata: Metadata = {
-  title: "Katha",
+  title: { default: "Katha", template: "%s | Katha" },
   description: "Build Your Story With Us",
   icons: {
     icon: [
@@ -48,7 +52,13 @@ export default function RootLayout({
       <body
         className={`${quicksand.variable} ${mulish.variable} antialiased`}
       >
-        {children}
+        <SiteNav />
+        <main>
+          <FishLayer />
+          {children}
+          <BackToTop />
+        </main>
+        <SiteFooter />
         <Analytics />
       </body>
     </html>

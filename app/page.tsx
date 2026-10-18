@@ -1,186 +1,44 @@
-"use client";
-
 import Image from "next/image";
-import { useEffect, useRef, useState } from "react";
+import ContactSection from "@/components/ContactSection";
+import { BOOKING_URL } from "@/lib/site";
 
-const BOOKING_URL = "https://calendar.app.google/ErKfN8DMAmHmcnt38";
+const builtFor = [
+  { label: "Social enterprises", image: "/built-for/social-enterprises.jpg" },
+  { label: "Startups", image: "/built-for/startups.jpg" },
+  { label: "Foundations and NGOs", image: "/built-for/foundations-ngos.jpg" },
+  {
+    label: "Research and educational organisations",
+    image: "/built-for/research-education.jpg",
+  },
+];
 
-// Set to false to turn off the fish that swim across the page on scroll.
-const ENABLE_FISH_ANIMATION = false;
+const changes = [
+  {
+    title: "Your organisation becomes recognisable, not interchangeable.",
+    detail:
+      "Messaging is built to stand out and resonate, leading to real action.",
+  },
+  {
+    title: "Your content starts working like an asset, not an expense.",
+    detail:
+      "We create content that compounds over time and contributes to growth, not just engagement.",
+  },
+  {
+    title: "You reach the right audience, not just more people.",
+    detail:
+      "We align your story with the right channels, creators, and communities, leading to stronger leads and better ROI.",
+  },
+  {
+    title: "You reduce marketing time and inefficiency.",
+    detail:
+      "We streamline communication and marketing for you, freeing your team to focus on your mission.",
+  },
+];
 
 export default function Home() {
-  const heroRef = useRef<HTMLElement | null>(null);
-  const swimRef = useRef<HTMLDivElement | null>(null);
-  const aboutBodyRef = useRef<HTMLDivElement | null>(null);
-  const contactFromRef = useRef<HTMLInputElement | null>(null);
-  const isProgrammaticScrollRef = useRef(false);
-  const [showTop, setShowTop] = useState(false);
-  const [menuOpen, setMenuOpen] = useState(false);
-  const [aboutExpanded, setAboutExpanded] = useState(false);
-  const aboutCollapseTimeoutRef = useRef<number | null>(null);
-
-  useEffect(() => {
-    return () => {
-      if (aboutCollapseTimeoutRef.current !== null) {
-        window.clearTimeout(aboutCollapseTimeoutRef.current);
-      }
-    };
-  }, []);
-
-  useEffect(() => {
-    const onScroll = () => {
-      const y = window.scrollY;
-      setShowTop(y > 300);
-    };
-
-    window.addEventListener("scroll", onScroll, { passive: true });
-
-    return () => {
-      window.removeEventListener("scroll", onScroll);
-    };
-  }, []);
-
-  // Drive the fish artwork: expose page scroll progress (0 → 1) as --swim-p;
-  // the diagonal travel itself is computed in CSS (.swim).
-  useEffect(() => {
-    const el = swimRef.current;
-    if (!el) return;
-    let ticking = false;
-
-    const update = () => {
-      ticking = false;
-      const max = document.documentElement.scrollHeight - window.innerHeight;
-      const p = max > 0 ? Math.min(1, Math.max(0, window.scrollY / max)) : 0;
-      el.style.setProperty("--swim-p", p.toFixed(4));
-    };
-
-    const onScroll = () => {
-      if (!ticking) {
-        ticking = true;
-        requestAnimationFrame(update);
-      }
-    };
-
-    update();
-    window.addEventListener("scroll", onScroll, { passive: true });
-    window.addEventListener("resize", onScroll);
-
-    return () => {
-      window.removeEventListener("scroll", onScroll);
-      window.removeEventListener("resize", onScroll);
-    };
-  }, []);
-
-  // Disable page scroll while the hamburger menu is open
-  useEffect(() => {
-    if (menuOpen) {
-      document.body.style.overflow = "hidden";
-    } else {
-      document.body.style.overflow = "";
-    }
-    return () => {
-      document.body.style.overflow = "";
-    };
-  }, [menuOpen]);
-
-  const services = [
-    {
-      title: "Content & Campaign Marketing",
-      detail:
-        "Turning your spreadsheets into words that spark stories. We transform complex programmes into narratives that funders, policymakers, and communities resonate with. Be it a copy for your website, a case study, or even a message you're shouting from every rooftop in town, we will help you figure out what you want to say and, just as importantly, how to say it.",
-    },
-    {
-      title: "Branding & Narrative Strategy",
-      detail:
-        "Your organisation has a story, your brand makes it unforgettable. Our branding strategy blends bold creativity with smart, data-driven decisions to help your brand claim its space in the world. So if you're evolving, expanding, merging, or just a bit confused about your brand… let's talk and find something that works for you.",
-    },
-    {
-      title: "Creative Digital Design",
-      detail:
-        "Great stories deserve beautiful execution. We design digital experiences and visual assets that bring your narrative to life across platforms. If your brand feels like it needs a shot of espresso and a pep talk, you're in the right place. Our approach combines design thinking with storytelling, ensuring that every visual element supports the larger narrative. From engaging newsletters to simple cohesive decks, we have it covered.",
-    },
-  ];
-
   return (
     <>
-      <div className="site-nav">
-        <div className="section-inner">
-          <header className="hero__nav">
-            <div className="hero__logo">
-              <Image
-                src="/logo_transparent.png"
-                alt="Katha logo"
-                className="hero__logo-mark"
-                width={24}
-                height={24}
-                priority
-              />
-              <span className="hero__logo-text">KATHA</span>
-            </div>
-            <nav className="hero__menu">
-              <a href="#about">About</a>
-              <a href="#services">Services</a>
-              <a href="#contact">Contact</a>
-            </nav>
-            {/* Mobile burger + panel */}
-            <button
-              className="hero__burger"
-              aria-label="Toggle menu"
-              aria-expanded={menuOpen}
-              aria-controls="hero-menu-panel"
-              onClick={() => setMenuOpen((v) => !v)}
-            >
-              ☰
-            </button>
-            <div
-              id="hero-menu-panel"
-              className="hero__menu-panel"
-              role="menu"
-              aria-hidden={!menuOpen}
-            >
-              <button
-                className="hero__menu-close"
-                aria-label="Close menu"
-                onClick={() => setMenuOpen(false)}
-              >
-                ×
-              </button>
-              <a
-                role="menuitem"
-                href="#about"
-                onClick={() => setMenuOpen(false)}
-              >
-                About
-              </a>
-              <a
-                role="menuitem"
-                href="#services"
-                onClick={() => setMenuOpen(false)}
-              >
-                Services
-              </a>
-              <a
-                role="menuitem"
-                href="#contact"
-                onClick={() => setMenuOpen(false)}
-              >
-                Contact
-              </a>
-            </div>
-          </header>
-        </div>
-      </div>
-
-      <main>
-      {ENABLE_FISH_ANIMATION && (
-        <div className="swim" ref={swimRef} aria-hidden="true">
-          <Image className="swim__fish swim__fish--1" src="/swim_fish_a.png" alt="" width={375} height={259} sizes="20vw" />
-          <Image className="swim__fish swim__fish--2" src="/swim_fish_b.png" alt="" width={289} height={217} sizes="15vw" />
-          <Image className="swim__fish swim__fish--3" src="/swim_fish_a.png" alt="" width={375} height={259} sizes="12vw" />
-          <Image className="swim__fish swim__fish--4" src="/swim_fish_b.png" alt="" width={289} height={217} sizes="10vw" />
-        </div>
-      )}
-      <section className="hero" ref={heroRef}>
+      <section className="hero">
         <Image
           className="hero__art"
           src="/landing_background_2x.png"
@@ -191,408 +49,77 @@ export default function Home() {
           preload
         />
         <div className="section-inner">
-        <section className="hero__content">
-          <div className="hero__copy">
-            <h1 className="hero__title">KATHA</h1>
-            <h3 className="hero__subtitle">
-              The growth studio for impact makers
-            </h3>
-            <p className="hero__description">
-              Katha helps Startups, social enterprises, foundations, and research organisations turn their complex, high-impact work into stories that build trust, secure funding, and move the people who matter.
-              <br />
-              <br />
-              Creative? Absolutely. Strategic? Always.
-            </p>
-
-            <div className="hero__actions">
-              <a
-                className="hero__cta"
-                href={BOOKING_URL}
-                target="_blank"
-                rel="noopener noreferrer"
-              >
-                Book a 15-min call
-              </a>
-            </div>
-          </div>
-        </section>
-        </div>
-      </section>
-
-      <section id="changes" className="services changes">
-        <div className="section-inner">
-          <header className="services__header">
-            <h2 className="services__title">
-              What changes when you work with us
-            </h2>
-          </header>
-
-          <div className="changes__list">
-            {[
-              {
-                title:
-                  "Your organisation becomes recognisable, not interchangeable.",
-                detail:
-                  "Messaging is built to stand out and resonate, leading to real action.",
-              },
-              {
-                title:
-                  "Your content starts working like an asset, not an expense.",
-                detail:
-                  "We create content that compounds over time and contributes to growth, not just engagement.",
-              },
-              {
-                title: "You reach the right audience, not just more people.",
-                detail:
-                  "We align your story with the right channels, creators, and communities, leading to stronger leads and better ROI.",
-              },
-              {
-                title: "You reduce marketing time and inefficiency.",
-                detail:
-                  "We streamline communication and marketing for you, freeing your team to focus on your mission.",
-              },
-            ].map((item) => (
-              <article className="change-row" key={item.title}>
-                <h3 className="about__lead">{item.title}</h3>
-                <p className="service-card__detail">{item.detail}</p>
-              </article>
-            ))}
-          </div>
-        </div>
-      </section>
-
-      <section id="about" className="services about">
-        <div className="section-inner">
-        <header className="services__header">
-          <h2 className="services__title">About</h2>
-        </header>
-
-        <div className="about__content">
-          <article
-            className={`about__card${aboutExpanded ? " about__card--expanded" : ""}`}
-          >
-            <h3 className="about__lead">
-              Katha means “story.” We mean adventure.
-            </h3>
-
-            <div className="about__body" ref={aboutBodyRef}>
-              <p>
-                Stories aren’t just for bedtime, they shape the way the world
-                views your work. They build trust, spark movements, and create
-                action.
-              </p>
-              <p>
-                At Katha, we help organisations that are trying to create an
-                impact - from climate change to education, research to social
-                innovation - make sure their stories get heard. Through
-                strategy, storytelling, and marketing we help organisations
-                turn complex work into narratives that inspire action.
-              </p>
-              <p>
-                How do we do this? With a mix of strategy, storytelling, and a
-                touch of fun.
-              </p>
-              <div className="about__extra" aria-hidden={!aboutExpanded}>
-                <div className="about__extra-inner">
-                  <p className="about__list-intro">Whether you’re:</p>
-                  <ul className="about__list">
-                    <li>a social enterprise launching a bold idea</li>
-                    <li>a foundation funding change-makers</li>
-                    <li>a climate startup saving the planet</li>
-                    <li>or an NGO trying to influence policy</li>
-                  </ul>
-                  <p className="about__list-intro">
-                    we help your story travel further, faster, and with flair.
-                  </p>
-                </div>
-              </div>
-            </div>
-            <button
-              type="button"
-              className={`about__toggle${aboutExpanded ? " about__toggle--less" : ""}`}
-              aria-expanded={aboutExpanded}
-              onClick={() => {
-                if (!aboutExpanded) {
-                  setAboutExpanded(true);
-                  return;
-                }
-
-                aboutBodyRef.current?.scrollTo({
-                  top: 0,
-                  behavior: "smooth",
-                });
-
-                if (aboutCollapseTimeoutRef.current !== null) {
-                  window.clearTimeout(aboutCollapseTimeoutRef.current);
-                }
-
-                aboutCollapseTimeoutRef.current = window.setTimeout(() => {
-                  setAboutExpanded(false);
-                  aboutCollapseTimeoutRef.current = null;
-                }, 220);
-              }}
-            >
-              {aboutExpanded ? "Show less" : "Read more"}
-            </button>
-          </article>
-        </div>
-        </div>
-      </section>
-
-      <section id="services" className="services">
-        <div className="section-inner">
-        <header className="services__header">
-          <h2 className="services__title">Services</h2>
-          <p className="services__subtitle">
-            We moonlight as spies, ninjas, & tap dancers...
-            <br></br>
-            but, here’s what we do during the day:
-          </p>
-        </header>
-
-        <div className="services__grid">
-          {services.map((svc) => (
-            <article key={svc.title} className="service-card">
-              <h3 className="service-card__title">{svc.title}</h3>
-              <p className="service-card__detail">{svc.detail}</p>
-            </article>
-          ))}
-        </div>
-
-        <p className="services__footer-note">
-          We don’t offer a one-size-fits-all service.
-          <br />Everything is bespoke,
-          based on your goals, values, and your audience.
-        </p>
-        </div>
-      </section>
-
-      {/* Contact Section */}
-      <section
-        id="contact"
-        className="contact-band"
-        aria-labelledby="contact-title"
-      >
-        <div className="section-inner">
-        <header className="services__header">
-          <h2 id="contact-title" className="contact__title">
-            Contact
-          </h2>
-          <p className="contact__subtitle">We&apos;d love to hear from you</p>
-        </header>
-
-        <div style={{ gridTemplateColumns: "1fr" }}>
-          <article className="service-card" style={{ minHeight: "auto" }}>
-            <div
-              style={{ display: "flex", flexDirection: "column", gap: "20px" }}
-            >
-              <a
-                className="service-card__title"
-                style={{ margin: 0, textDecoration: "none" }}
-                href="mailto:hello@katha.io"
-                aria-label="Email hello@katha.io"
-              >
-                E-MAIL
-              </a>
-              <h3
-                className="contact__message-label"
-                style={{ textAlign: "center" }}
-              >
-                Or leave us a message ↓
+          <section className="hero__content">
+            <div className="hero__copy">
+              <h1 className="hero__title">KATHA</h1>
+              <h3 className="hero__subtitle">
+                The growth studio for impact makers
               </h3>
-              <form
-                onSubmit={async (e) => {
-                  e.preventDefault();
-                  const form = e.currentTarget as HTMLFormElement;
-                  const data = new FormData(form);
-                  const from = String(data.get("from") || "").trim();
-                  const email = String(data.get("email") || "").trim();
-                  const subject = String(data.get("subject") || "").trim();
-                  const emailValid = /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email);
-                  if (!emailValid) {
-                    alert("Please enter a valid email address.");
-                    return;
-                  }
-                  try {
-                    const resp = await fetch("/api/contact", {
-                      method: "POST",
-                      headers: { "Content-Type": "application/json" },
-                      body: JSON.stringify({ from, email, subject }),
-                    });
-                    const json = await resp.json();
-                    if (!resp.ok || !json.ok) {
-                      throw new Error(json.error || "Failed to send message");
-                    }
-                    alert("Thanks! Your message has been sent.");
-                    form.reset();
-                  } catch (err: unknown) {
-                    const message =
-                      err instanceof Error
-                        ? err.message
-                        : "Please try again later.";
-                    alert(
-                      `Sorry, we couldn't send your message. ${message}`,
-                    );
-                  }
-                }}
-                className="contact-form"
-              >
-                <label className="contact-label">
-                  From
-                  <input
-                    name="from"
-                    id="contact-from"
-                    ref={contactFromRef}
-                    type="text"
-                    className="contact-input"
-                    placeholder="Your name"
-                    required
-                  />
-                </label>
-                <label className="contact-label">
-                  Email
-                  <input
-                    name="email"
-                    type="email"
-                    className="contact-input"
-                    placeholder="you@example.com"
-                    required
-                  />
-                </label>
-                <label className="contact-label">
-                  Subject
-                  <textarea
-                    name="subject"
-                    className="contact-textarea"
-                    placeholder="Tell us more"
-                    required
-                  />
-                </label>
-                <button type="submit" className="hero__cta">
-                  Send
-                </button>
-              </form>
+              <p className="hero__description">
+                Katha helps startups, social enterprises, foundations, and
+                research organisations turn their complex, high-impact work into
+                stories that build trust, secure funding, and move the people who
+                matter.
+                <br />
+                <br />
+                Creative? Absolutely. Strategic? Always.
+              </p>
+
+              <div className="hero__actions">
+                <a
+                  className="hero__cta"
+                  href={BOOKING_URL}
+                  target="_blank"
+                  rel="noopener noreferrer"
+                >
+                  Book a 15-min call
+                </a>
+              </div>
             </div>
-          </article>
+          </section>
         </div>
-        </div>
-        <div className="service-banner__container">
-          <div className="service-banner__scroll">
-            <span>EMAIL MARKETING</span>
-            <span>✶</span>
-            <span>COPY WRITING</span>
-            <span>✶</span>
-            <span>SEO STRATEGY</span>
-            <span>✶</span>
-            <span>SEO ANALYTICS</span>
-            <span>✶</span>
-            <span>DIGITAL STRATEGY</span>
-            <span>✶</span>
-            <span>TONE OF VOICE</span>
-            <span>✶</span>
-            <span>EMAIL MARKETING</span>
-            <span>✶</span>
-            <span>COPY WRITING</span>
-            <span>✶</span>
-            <span>SEO STRATEGY</span>
-            <span>✶</span>
-            <span>SEO ANALYTICS</span>
-            <span>✶</span>
-            <span>DIGITAL STRATEGY</span>
-            <span>✶</span>
-            <span>TONE OF VOICE</span>
-            <span>✶</span>
-            <span>EMAIL MARKETING</span>
-            <span>✶</span>
-            <span>COPY WRITING</span>
-            <span>✶</span>
-            <span>SEO STRATEGY</span>
-            <span>✶</span>
-            <span>SEO ANALYTICS</span>
-            <span>✶</span>
-            <span>DIGITAL STRATEGY</span>
-            <span>✶</span>
-            <span>TONE OF VOICE</span>
-            <span>✶</span>
-            <span>EMAIL MARKETING</span>
-            <span>✶</span>
-            <span>COPY WRITING</span>
-            <span>✶</span>
-            <span>SEO STRATEGY</span>
-            <span>✶</span>
-            <span>SEO ANALYTICS</span>
-            <span>✶</span>
-            <span>DIGITAL STRATEGY</span>
-            <span>✶</span>
-            <span>TONE OF VOICE</span>
-            <span>✶</span>
+      </section>
+
+      {/* Cream band: who Katha is for, then what changes. Contrasts with the
+          gradient sections above and below. */}
+      <section id="built-for" className="proof">
+        <div className="section-inner">
+          <h2 className="proof__title">We work with</h2>
+
+          <ul className="built-for__grid">
+            {builtFor.map((item) => (
+              <li key={item.label} className="built-for__item">
+                <div className="built-for__frame">
+                  <Image
+                    className="built-for__thumb"
+                    src={item.image}
+                    alt=""
+                    width={900}
+                    height={900}
+                    sizes="(max-width: 820px) 45vw, 300px"
+                  />
+                </div>
+                <span className="built-for__label">{item.label}</span>
+              </li>
+            ))}
+          </ul>
+
+          <div id="changes" className="proof__block">
+            <h2 className="proof__title">What changes when you work with us</h2>
+
+            <div className="changes__list">
+              {changes.map((item) => (
+                <article className="change-row" key={item.title}>
+                  <h3 className="change-row__title">{item.title}</h3>
+                  <p className="change-row__detail">{item.detail}</p>
+                </article>
+              ))}
+            </div>
           </div>
         </div>
       </section>
 
-      {showTop && (
-        <button
-          aria-label="Back to top"
-          className="back-to-top"
-          onClick={() => {
-            // Suppress observer snapping while scrolling to top
-            isProgrammaticScrollRef.current = true;
-            // Prefer aligning the hero section explicitly
-            heroRef.current?.scrollIntoView({
-              behavior: "smooth",
-              block: "start",
-            });
-            // Fallback to window top if heroRef missing
-            if (!heroRef.current) {
-              window.scrollTo({ top: 0, behavior: "smooth" });
-            }
-            // Re-enable observer after scroll
-            setTimeout(() => {
-              isProgrammaticScrollRef.current = false;
-            }, 1000);
-          }}
-        >
-          ↑
-        </button>
-      )}
-      </main>
-
-      <footer className="site-footer">
-        <div className="section-inner">
-          <div className="site-footer__grid">
-            <div className="site-footer__brand">
-              <div className="hero__logo">
-                <Image
-                  src="/logo_transparent.png"
-                  alt=""
-                  className="hero__logo-mark"
-                  width={24}
-                  height={24}
-                />
-                <span className="hero__logo-text">KATHA</span>
-              </div>
-              <p className="site-footer__tagline">Build your story with us.</p>
-            </div>
-            <nav className="site-footer__col" aria-label="Footer">
-              <h2 className="site-footer__heading">Explore</h2>
-              <a href="#about">About</a>
-              <a href="#services">Services</a>
-              <a href="#contact">Contact</a>
-            </nav>
-            <div className="site-footer__col">
-              <h2 className="site-footer__heading">Get in touch</h2>
-              <a href="mailto:hello@katha.io">hello@katha.io</a>
-              <a href={BOOKING_URL} target="_blank" rel="noopener noreferrer">
-                Book a 15-min call
-              </a>
-            </div>
-          </div>
-          <p className="site-footer__legal">
-            © <span suppressHydrationWarning>{new Date().getFullYear()}</span>{" "}
-            Katha. All rights reserved.
-          </p>
-        </div>
-      </footer>
+      <ContactSection />
     </>
   );
 }

@@ -7,11 +7,13 @@ export async function POST(request: Request) {
   try {
     const body = await request.json();
     const from = String(body.from || "").trim();
+    // Kept to a single line since it also goes in the email subject
+    const org = String(body.org || "").replace(/\s+/g, " ").trim().slice(0, 200);
     const email = String(body.email || "").trim();
     const subject = String(body.subject || "").trim();
 
     const emailValid = /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email);
-    if (!from || !emailValid || !subject) {
+    if (!from || !org || !emailValid || !subject) {
       return NextResponse.json(
         { ok: false, error: "Invalid form data" },
         { status: 400 }
@@ -19,12 +21,12 @@ export async function POST(request: Request) {
     }
 
     // Compose a simple text email
-    const text = `New contact submission\n\nFrom: ${from}\nEmail: ${email}\n\nSubject / Message:\n${subject}`;
+    const text = `New contact submission\n\nFrom: ${from}\nOrganisation: ${org}\nEmail: ${email}\n\nSubject / Message:\n${subject}`;
 
     const { error } = await resend.emails.send({
       from: "Katha <no-reply@katha.io>",
       to: "hello@katha.io",
-      subject: `Contact Form: ${from}`,
+      subject: `Contact Form: ${from} (${org})`,
       text,
     });
 
