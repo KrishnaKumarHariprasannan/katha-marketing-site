@@ -106,7 +106,7 @@ export default function ServicesPage() {
                   href="/#contact"
                   className="service-detail__secondary-link"
                 >
-                  Or drop us a line
+                  Or drop us a message
                 </Link>
               </div>
             </div>

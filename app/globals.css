@@ -537,7 +537,7 @@ main {
 }
 
 .hero__copy {
-  max-width: 650px;
+  max-width: 800px;
 }
 
 .hero__title {
@@ -550,6 +550,7 @@ main {
 }
 
 .hero__subtitle {
+  font-size: 1.4rem;
   margin: 0 0 var(--space-xl);
   text-transform: uppercase;
   letter-spacing: var(--track-xl);
@@ -559,17 +560,42 @@ main {
 }
 
 .hero__description {
-  font-size: 1.4rem;
+  font-size: 1.3rem;
   line-height: 1.7;
   font-family: var(--font-body);
-  max-width: 60rem;
+  max-width: 70rem;
 }
 
 .hero__actions {
   display: flex;
+  flex-wrap: wrap;
   align-items: center;
   gap: var(--space-md);
   margin-top: var(--space-xl);
+}
+
+.hero__secondary-link {
+  font-family: var(--font-body);
+  font-size: 1.3rem;
+  color: var(--text-dim);
+  text-decoration: none;
+  white-space: nowrap;
+  display: inline-block;
+  transition:
+    transform 150ms ease,
+    text-shadow 150ms ease,
+    color 150ms ease;
+}
+
+.hero__actions .hero__cta {
+  white-space: nowrap;
+}
+
+.hero__secondary-link:hover,
+.hero__secondary-link:focus-visible {
+  color: var(--color-text-primary);
+  transform: translateY(-2px);
+  text-shadow: 0 6px 14px rgba(0, 0, 0, 0.45);
 }
 
 .hero__cta {
@@ -658,14 +684,11 @@ main > section.proof {
   gap: var(--space-md);
 }
 
-/* Same frame around every thumbnail so the four different illustration
-   backgrounds read as a set. */
+/* No frame: a soft purple shadow lifts each thumbnail off the white section,
+   which ties the four different illustration backgrounds together. */
 .built-for__frame {
-  padding: var(--space-sm);
-  background: var(--color-brand-purple);
-  border: 2px solid var(--color-brand-purple);
   border-radius: var(--radius-card);
-  box-shadow: 0 10px 24px rgba(67, 16, 67, 0.12);
+  box-shadow: 0 12px 28px rgba(61, 0, 70, 0.35);
 }
 
 .built-for__thumb {
@@ -674,10 +697,14 @@ main > section.proof {
   height: auto;
   aspect-ratio: 1;
   object-fit: cover;
-  border-radius: calc(var(--radius-card) - var(--space-sm));
+  border-radius: var(--radius-card);
 }
 
 .built-for__label {
+  /* Optical alignment: indent past the rounded corner so the text lines up
+     with the visible edge of the thumbnail; the top padding keeps it clear
+     of the shadow */
+  padding: var(--space-sm) 0 0 calc(var(--radius-card) * 0.4);
   font-family: var(--font-display);
   font-size: 1.4rem; /* body text in this section matches the hero (1.4rem) */
   font-weight: 500;
@@ -766,10 +793,6 @@ main > section.proof {
 
   main > section.proof .built-for__item {
     gap: calc(var(--pf) * 0.5);
-  }
-
-  main > section.proof .built-for__frame {
-    padding: calc(var(--pf) * 0.4);
   }
 
   main > section.proof .built-for__label {
@@ -1296,10 +1319,12 @@ main > section.contact-band {
       var(--space-md);
   }
 
+  /* Header and cards form one group, centred below the nav */
   main > section.services-intro .section-inner {
     flex: 1;
     display: flex;
     flex-direction: column;
+    justify-content: center;
     min-height: 0;
   }
 
@@ -1313,13 +1338,10 @@ main > section.contact-band {
     letter-spacing: var(--track-lg);
   }
 
-  /* Cards keep their natural height and sit centred in the space below the
-     header, rather than stretching to fill it. */
+  /* Cards keep their natural height and sit just below the header */
   main > section.services-intro .services__grid {
-    flex: 1;
-    align-content: center;
     gap: var(--space-lg);
-    margin-top: var(--space-md);
+    margin-top: var(--space-xl);
   }
 
   main > section.services-intro .service-card {
@@ -1347,6 +1369,21 @@ main > section.contact-band {
   main > section.services-intro .services__footer-note {
     margin: var(--space-md) 0 0;
     font-size: calc(var(--fit) * 1.1);
+  }
+}
+
+/* Particularly large screens: stretch the cards taller so they fill more of
+   the screen. The description row takes the extra height and "Find out more"
+   stays at the bottom. */
+@media (min-width: 1800px) and (min-height: 1100px) {
+  main > section.services-intro .services__grid {
+    grid-template-rows: auto 1fr auto;
+    min-height: 44svh;
+  }
+
+  main > section.services-intro .service-card {
+    padding: var(--space-xl);
+    row-gap: var(--space-lg);
   }
 }
 

@@ -1,4 +1,5 @@
 import Image from "next/image";
+import Link from "next/link";
 import BookingLink from "@/components/BookingLink";
 import ContactSection from "@/components/ContactSection";
 
@@ -56,10 +57,8 @@ export default function Home() {
                 The growth studio for impact makers
               </h3>
               <p className="hero__description">
-                Katha helps startups, social enterprises, foundations, and
-                research organisations turn their complex, high-impact work into
-                stories that build trust, secure funding, and move the people who
-                matter.
+                Katha helps startups, social enterprises, foundations, and research organisations turn their complex, high-impact work into
+                stories that build trust, secure funding, and move the people who matter.
                 <br />
                 <br />
                 Creative? Absolutely. Strategic? Always.
@@ -67,6 +66,9 @@ export default function Home() {
 
               <div className="hero__actions">
                 <BookingLink className="hero__cta" />
+                <Link href="/#contact" className="hero__secondary-link">
+                  Or write to us
+                </Link>
               </div>
             </div>
           </section>
