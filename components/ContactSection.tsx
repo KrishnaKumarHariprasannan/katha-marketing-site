@@ -1,6 +1,7 @@
 "use client";
 
-import { useState } from "react";
+import { useEffect, useRef, useState } from "react";
+import { OFFER_PREFILL_EVENT } from "@/lib/offers";
 import { CONTACT_EMAIL } from "@/lib/site";
 
 const BANNER_ITEMS = [
@@ -20,6 +21,23 @@ type Status = { kind: "success" | "error"; message: string } | null;
 export default function ContactSection() {
   const [status, setStatus] = useState<Status>(null);
   const [sending, setSending] = useState(false);
+  const [message, setMessage] = useState("");
+  const prefilled = useRef("");
+
+  // An offer card on the page pre-fills the message, unless the visitor has
+  // already typed something of their own.
+  useEffect(() => {
+    const onPrefill = (e: Event) => {
+      const text = (e as CustomEvent<{ message: string }>).detail.message;
+      setMessage((current) => {
+        if (current.trim() && current !== prefilled.current) return current;
+        prefilled.current = text;
+        return text;
+      });
+    };
+    window.addEventListener(OFFER_PREFILL_EVENT, onPrefill);
+    return () => window.removeEventListener(OFFER_PREFILL_EVENT, onPrefill);
+  }, []);
 
   return (
     <section
@@ -101,6 +119,8 @@ export default function ContactSection() {
                       message: "Thanks! Your message has been sent.",
                     });
                     form.reset();
+                    setMessage("");
+                    prefilled.current = "";
                   } catch (err: unknown) {
                     const message =
                       err instanceof Error
@@ -153,6 +173,8 @@ export default function ContactSection() {
                   <textarea
                     name="subject"
                     className="contact-textarea"
+                    value={message}
+                    onChange={(e) => setMessage(e.target.value)}
                     placeholder="A bit about what you are looking for"
                     required
                   />
