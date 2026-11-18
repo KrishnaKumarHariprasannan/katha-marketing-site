@@ -20,31 +20,26 @@ const changes: {
   title: string;
   detail: string;
   art: ChangeIllustrationName;
-  tint: string;
 }[] = [
   {
     title: "Recognisable, not interchangeable",
     detail: "Messaging that stands out and moves people to act.",
     art: "stand-out",
-    tint: "#fbece6",
   },
   {
     title: "An asset, not an expense",
     detail: "Content that compounds and drives growth, not just clicks.",
     art: "asset",
-    tint: "#e1f4ec",
   },
   {
     title: "The right audience, not just more people",
     detail: "Your story matched to the right channels and communities.",
     art: "audience",
-    tint: "#eeecfd",
   },
   {
     title: "Less busywork, more mission",
     detail: "Streamlined marketing, so your team can focus on impact.",
     art: "mission",
-    tint: "#fbeedc",
   },
 ];
 
@@ -139,10 +134,7 @@ export default function Home() {
             <div className="changes__grid">
               {changes.map((item, i) => (
                 <article className="change-card" key={item.title}>
-                  <div
-                    className="change-card__art"
-                    style={{ background: item.tint }}
-                  >
+                  <div className="change-card__art">
                     <ChangeIllustration name={item.art} />
                   </div>
                   <div className="change-card__body">

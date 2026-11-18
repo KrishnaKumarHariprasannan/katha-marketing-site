@@ -5,7 +5,7 @@ import { useSyncExternalStore } from "react";
 // Illustration 04 of "What changes": a curvy, tangled line straightens out and
 // heads for the target. The morph is SMIL (<animate>) so it works in every
 // browser; with reduced motion the end state is drawn instead, still.
-const BROWN = "#8a4e0a";
+const PLUM = "#431043";
 const TARGET_X = 340;
 const TIMES = "0;0.35;0.65;0.8;1";
 const EASE = ".4 0 .2 1;".repeat(4).slice(0, -1);
@@ -38,14 +38,14 @@ export default function MissionArt() {
 
   return (
     <g>
-      <circle cx={TARGET_X} cy="100" r="24" fill="none" stroke="#e3c79d" strokeWidth="2.5" />
-      <circle cx={TARGET_X} cy="100" r="13" fill="none" stroke="#d2a363" strokeWidth="2.5" />
-      <circle cx={TARGET_X} cy="100" r="4" fill={BROWN} />
+      <circle cx={TARGET_X} cy="100" r="24" fill="none" stroke="#F4849A" strokeWidth="2.5" />
+      <circle cx={TARGET_X} cy="100" r="13" fill="none" stroke="#A63A68" strokeWidth="2.5" />
+      <circle cx={TARGET_X} cy="100" r="4" fill={PLUM} />
       <g>
         <path
           d={still ? TO_TARGET : WAVY}
           fill="none"
-          stroke={BROWN}
+          stroke={PLUM}
           strokeWidth="5"
           strokeLinecap="round"
           strokeLinejoin="round"
@@ -62,7 +62,7 @@ export default function MissionArt() {
             />
           )}
         </path>
-        <circle cx={still ? 322 : 290} cy="100" r="11" fill="#b8731c">
+        <circle cx={still ? 322 : 290} cy="100" r="11" fill="#A63A68">
           {!still && (
             <animate
               attributeName="cx"

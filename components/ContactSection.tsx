@@ -1,7 +1,7 @@
 "use client";
 
 import { useEffect, useRef, useState } from "react";
-import { OFFER_PREFILL_EVENT } from "@/lib/offers";
+import { OFFER_PREFILL_EVENT, takePendingPrefill } from "@/lib/offers";
 import { CONTACT_EMAIL } from "@/lib/site";
 
 const BANNER_ITEMS = [
@@ -24,18 +24,25 @@ export default function ContactSection() {
   const [message, setMessage] = useState("");
   const prefilled = useRef("");
 
-  // An offer card on the page pre-fills the message, unless the visitor has
+  // An offer card or link pre-fills the message, unless the visitor has
   // already typed something of their own.
   useEffect(() => {
-    const onPrefill = (e: Event) => {
-      const text = (e as CustomEvent<{ message: string }>).detail.message;
+    const fill = (text: string) =>
       setMessage((current) => {
         if (current.trim() && current !== prefilled.current) return current;
         prefilled.current = text;
         return text;
       });
+    const onPrefill = (e: Event) => {
+      e.preventDefault(); // tells the sender the form took it
+      fill((e as CustomEvent<{ message: string }>).detail.message);
     };
     window.addEventListener(OFFER_PREFILL_EVENT, onPrefill);
+
+    // A link on another page (e.g. Services) parked its message for us.
+    const pending = takePendingPrefill();
+    if (pending) fill(pending);
+
     return () => window.removeEventListener(OFFER_PREFILL_EVENT, onPrefill);
   }, []);
 

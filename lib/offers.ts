@@ -1,6 +1,7 @@
 // Small, fixed-scope ways to start working with Katha. Each entry becomes a
-// card on the landing page; clicking it jumps to the contact form with the
-// message pre-filled (see OfferCard and ContactSection).
+// card on the landing page (and a "quick way to start" link on the Services
+// page); clicking it jumps to the contact form with the message pre-filled
+// (see requestOfferPrefill and ContactSection).
 export type Offer = {
   slug: string;
   title: string;
@@ -40,4 +41,40 @@ export const offers: Offer[] = [
 
 export function offerPrefill(offer: Offer) {
   return `Hi Katha, I’d like to know more about the ${offer.title}.`;
+}
+
+// Asks the contact form to pre-fill its message. On the home page the form is
+// already mounted and handles the event (it cancels it to say so). From
+// another page it is not, so the message is parked in sessionStorage and the
+// form picks it up when it mounts.
+const PENDING_KEY = "katha:offer-prefill";
+const PENDING_MAX_AGE_MS = 60_000;
+
+export function requestOfferPrefill(offer: Offer) {
+  const message = offerPrefill(offer);
+  const handled = !window.dispatchEvent(
+    new CustomEvent(OFFER_PREFILL_EVENT, { detail: { message }, cancelable: true }),
+  );
+  if (handled) return;
+  try {
+    sessionStorage.setItem(
+      PENDING_KEY,
+      JSON.stringify({ message, at: Date.now() }),
+    );
+  } catch {
+    // Storage blocked: the form just opens empty.
+  }
+}
+
+// The message parked by requestOfferPrefill, if it is still fresh.
+export function takePendingPrefill(): string | null {
+  try {
+    const raw = sessionStorage.getItem(PENDING_KEY);
+    if (!raw) return null;
+    sessionStorage.removeItem(PENDING_KEY);
+    const { message, at } = JSON.parse(raw) as { message: string; at: number };
+    return Date.now() - at < PENDING_MAX_AGE_MS ? message : null;
+  } catch {
+    return null;
+  }
 }

@@ -1,7 +1,7 @@
 "use client";
 
 import Link from "next/link";
-import { OFFER_PREFILL_EVENT, offerPrefill, type Offer } from "@/lib/offers";
+import { requestOfferPrefill, type Offer } from "@/lib/offers";
 
 // Whole card links to the contact form and tells it which offer was picked,
 // so the message box opens pre-filled.
@@ -12,13 +12,7 @@ export default function OfferCard({ offer }: { offer: Offer }) {
       href="/#contact"
       className="service-card service-card--link"
       aria-labelledby={titleId}
-      onClick={() =>
-        window.dispatchEvent(
-          new CustomEvent(OFFER_PREFILL_EVENT, {
-            detail: { message: offerPrefill(offer) },
-          }),
-        )
-      }
+      onClick={() => requestOfferPrefill(offer)}
     >
       <h3 id={titleId} className="service-card__title">
         {offer.title}
