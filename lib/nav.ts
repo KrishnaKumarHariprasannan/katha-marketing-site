@@ -20,6 +20,7 @@ function subsections(
 }
 
 export const NAV_LINKS: NavLink[] = [
+  { label: "Home", href: "/" },
   {
     label: "About",
     href: "/about",

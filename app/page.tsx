@@ -6,8 +6,9 @@ import ChangeIllustration, {
 } from "@/components/ChangeIllustration";
 import BuiltForIcon, { type BuiltForIconName } from "@/components/BuiltForIcon";
 import ContactSection from "@/components/ContactSection";
-import OfferCard from "@/components/OfferCard";
+import StartIllustration from "@/components/StartIllustration";
 import { offers } from "@/lib/offers";
+import { services } from "@/lib/services";
 
 const builtFor: { label: string; icon: BuiltForIconName }[] = [
   { label: "Social enterprises", icon: "social-enterprises" },
@@ -23,7 +24,7 @@ const changes: {
 }[] = [
   {
     title: "Recognisable, not interchangeable",
-    detail: "Messaging that stands out and moves people to act.",
+    detail: "Messaging that stands out and inspires action.",
     art: "stand-out",
   },
   {
@@ -64,8 +65,8 @@ export default function Home() {
                 The growth studio for impact makers
               </h3>
               <p className="hero__description">
-                Katha helps startups, social enterprises, foundations, and research organisations turn their complex, high-impact work into
-                stories that build trust, secure funding, and move the people who matter.
+                Katha supports startups, social enterprises, foundations, and research organisations turn their complex, high-impact work into
+                stories that build trust, secure funding, and inspire action.
                 <br />
                 <br />
                 Creative? Absolutely. Strategic? Always.
@@ -82,39 +83,8 @@ export default function Home() {
         </div>
       </section>
 
-      {/* Easy ways to start: small fixed-scope offers, each pre-filling the
-          contact form. */}
-      <section
-        id="start"
-        className="services services-intro offers"
-        aria-labelledby="start-title"
-      >
-        <div className="section-inner">
-          <header className="services__header">
-            <h2 id="start-title" className="services__title">
-              Not sure where to start?
-            </h2>
-            <p className="services__subtitle">
-              No big commitment needed.
-              <br />
-              Pick one of these and we’ll get going:
-            </p>
-          </header>
-
-          <div className="services__grid">
-            {offers.map((offer) => (
-              <OfferCard key={offer.slug} offer={offer} />
-            ))}
-          </div>
-
-          <Link href="/services" className="hero__secondary-link offers__all">
-            See all services →
-          </Link>
-        </div>
-      </section>
-
-      {/* Cream band: who Katha is for, then what changes. Contrasts with the
-          gradient sections above and below. */}
+      {/* White band: who Katha is for, then what changes. Contrasts with the
+          gradient hero above. */}
       <section id="built-for" className="proof">
         <div className="section-inner">
           <h2 className="proof__title">Built for</h2>
@@ -148,6 +118,43 @@ export default function Home() {
               ))}
             </div>
           </div>
+        </div>
+      </section>
+
+      {/* Easy ways to start: small fixed-scope offers, each linking to the
+          service it belongs to (where "quick way to start" opens the contact
+          form pre-filled). */}
+      <section id="start" className="start" aria-labelledby="start-title">
+        <div className="section-inner">
+          <h2 id="start-title" className="proof__title">
+            Start here
+          </h2>
+
+          <div className="start__grid">
+            {offers.map((offer) => {
+              const service = services.find((svc) => svc.offer === offer.slug);
+              return (
+                <Link
+                  key={offer.slug}
+                  href={service ? `/services#${service.slug}` : "/services"}
+                  className="start-card"
+                >
+                  <div className="start-card__art">
+                    <StartIllustration name={offer.art} />
+                  </div>
+                  <div className="start-card__body">
+                    <h3 className="start-card__title">{offer.title}</h3>
+                    <p className="start-card__text">{offer.description}</p>
+                    <span className="start-card__more">See details →</span>
+                  </div>
+                </Link>
+              );
+            })}
+          </div>
+
+          <Link href="/services" className="start__all">
+            See all services →
+          </Link>
         </div>
       </section>
 

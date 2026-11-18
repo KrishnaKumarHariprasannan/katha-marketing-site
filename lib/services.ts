@@ -23,7 +23,7 @@ export const services: Service[] = [
     slug: "strategy-and-research",
     title: "Strategy and Research",
     art: "research",
-    offer: "comms-audit",
+    offer: "clarity-audit",
     tagline: "The homework nobody sees, but everyone feels.",
     summary:
       "Great communication starts with knowing exactly who you’re talking to, why they should care, and how to say it better than anyone else in the room.",
@@ -42,7 +42,7 @@ export const services: Service[] = [
     slug: "branding-and-marketing",
     title: "Branding and Marketing",
     art: "marketing",
-    offer: "paper-to-post",
+    offer: "scroll-stopper",
     tagline: "Your story, but louder, sharper, and impossible to ignore.",
     summary:
       "This is the part where strategy gets a voice. We build brands that feel unmistakably you, and campaigns that carry your message.",
@@ -61,7 +61,7 @@ export const services: Service[] = [
     slug: "creative-digital-design",
     title: "Creative Digital Design",
     art: "design",
-    offer: "highlights",
+    offer: "spotlight-deck",
     tagline: "Because even the best ideas deserve a great outfit.",
     summary:
       "We give your narrative a face, across every touchpoint your audience will actually encounter: web, social, decks, print.",
