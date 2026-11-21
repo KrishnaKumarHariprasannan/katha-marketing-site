@@ -58,7 +58,9 @@ export default function ServicesPage() {
             key={svc.slug}
             id={svc.slug}
             className={`service-block ${
-              dark ? "service-block--dark service-block--flip" : "service-block--light"
+              dark
+                ? "service-block--dark service-block--flip"
+                : "service-block--light wave-top wave-bottom"
             }`}
             aria-labelledby={`${svc.slug}-title`}
           >

@@ -1,4 +1,3 @@
-import Image from "next/image";
 import Link from "next/link";
 import BookingLink from "@/components/BookingLink";
 import ChangeIllustration, {
@@ -6,6 +5,7 @@ import ChangeIllustration, {
 } from "@/components/ChangeIllustration";
 import BuiltForIcon, { type BuiltForIconName } from "@/components/BuiltForIcon";
 import ContactSection from "@/components/ContactSection";
+import HeroArt from "@/components/HeroArt";
 import StartIllustration from "@/components/StartIllustration";
 import { offers } from "@/lib/offers";
 import { services } from "@/lib/services";
@@ -48,15 +48,7 @@ export default function Home() {
   return (
     <>
       <section className="hero">
-        <Image
-          className="hero__art"
-          src="/landing_background_2x.png"
-          alt=""
-          width={2160}
-          height={2160}
-          sizes="45vw"
-          preload
-        />
+        <HeroArt />
         <div className="section-inner">
           <section className="hero__content">
             <div className="hero__copy">
@@ -85,7 +77,7 @@ export default function Home() {
 
       {/* White band: who Katha is for, then what changes. Contrasts with the
           gradient hero above. */}
-      <section id="built-for" className="proof">
+      <section id="built-for" className="proof wave-top">
         <div className="section-inner">
           <h2 className="proof__title">Built for</h2>
 
@@ -124,7 +116,11 @@ export default function Home() {
       {/* Easy ways to start: small fixed-scope offers, each linking to the
           service it belongs to (where "quick way to start" opens the contact
           form pre-filled). */}
-      <section id="start" className="start" aria-labelledby="start-title">
+      <section
+        id="start"
+        className="start wave-bottom"
+        aria-labelledby="start-title"
+      >
         <div className="section-inner">
           <h2 id="start-title" className="proof__title">
             Start here
