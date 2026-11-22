@@ -1,9 +1,8 @@
 import type { Metadata } from "next";
 import Link from "next/link";
 import BookingLink from "@/components/BookingLink";
-import OfferLink from "@/components/OfferLink";
 import ServiceIllustration from "@/components/ServiceIllustration";
-import { offers } from "@/lib/offers";
+import { offerPath, offers } from "@/lib/offers";
 import { services, servicesCta } from "@/lib/services";
 import { BOOKING_MINUTES } from "@/lib/site";
 
@@ -79,7 +78,11 @@ export default function ServicesPage() {
                     <h3 className="service-block__outcome-label">The outcome</h3>
                     <p className="service-block__summary">{svc.outcome}</p>
                   </div>
-                  {offer && <OfferLink offer={offer} />}
+                  {offer && (
+                    <Link href={offerPath(offer)} className="service-block__start">
+                      Quick way to start: {offer.title} →
+                    </Link>
+                  )}
                 </div>
 
                 <div className="service-block__side">

@@ -2,12 +2,12 @@ import type { OfferIconName } from "@/components/OfferIcon";
 import type { StartArtName } from "@/components/StartIllustration";
 
 // Small, fixed-scope ways to start working with Katha. Each entry becomes a
-// card in the landing page's "Start here" section (linking to the service it
-// belongs to) and a "quick way to start" link on the Services page, which
-// jumps to the contact form with the message pre-filled (see
-// requestOfferPrefill and ContactSection). `art` picks the card's animated
-// picture (and the one in the offer page's header). `page` is the content of
-// the offer's own page, /starts/<slug>.
+// card in the landing page's "Start here" section and a "quick way to start"
+// link on the Services page, both linking to the offer's own page,
+// /starts/<slug>. That page's Start button jumps to the contact form with the
+// message pre-filled (see requestOfferPrefill and ContactSection). `art` picks
+// the card's animated picture (and the one in the offer page's header);
+// `page` is the content of the offer's page.
 export type Offer = {
   slug: string;
   title: string;
