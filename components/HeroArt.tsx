@@ -1,7 +1,6 @@
 "use client";
 
 import Image from "next/image";
-import { preload } from "react-dom";
 import { useEffect, useRef } from "react";
 
 // The stream artwork in the bottom-right of the hero. When the page loads the
@@ -9,9 +8,10 @@ import { useEffect, useRef } from "react";
 // then everything calms and the page settles on the original artwork exactly
 // as it was drawn.
 //
-// The artwork was cut into pieces for this (public/hero-fish/): stream-v4.png
-// is the picture with the fish removed, and each fish-*.png is one fish laid
-// out straight (head on the left, tail on the right).
+// The artwork was cut into pieces for this (public/hero-fish/, as WebP to keep
+// them small): stream-v4.webp is the picture with the fish removed, and each
+// fish-*.webp is one fish laid out straight (head on the left, tail on the
+// right).
 //
 // - The water is drawn with a small WebGL shader (WATER_FRAG): a wavy front of
 //   water sweeps up the stream from the lower right with a bright crest riding
@@ -53,13 +53,13 @@ type Fish = {
 
 const FISH: Fish[] = [
   {
-    src: "/hero-fish/fish-big.png",
+    src: "/hero-fish/fish-big.webp",
     cx: 566.7, cy: 834.9, angle: 21.85,
     width: 786, height: 409, xs0: 392.6, ys0: 204.5, headX: 16, length: 754,
     delay: 0, duration: 4.4, bend: 0.12, beat: 1.55, meander: 0.13, phase: 0.6,
   },
   {
-    src: "/hero-fish/fish-middle.png",
+    src: "/hero-fish/fish-middle.webp",
     cx: 1524.6, cy: 1486.9, angle: 33.29,
     width: 659, height: 273, xs0: 329.5, ys0: 136.5, headX: 16, length: 626,
     delay: 0, duration: 3.2, bend: 0.125, beat: 1.8, meander: 0.12, phase: 2.1,
@@ -67,14 +67,14 @@ const FISH: Fish[] = [
   {
     // cut off by the picture's edge, so only its front is known: a gentle
     // swim, and a wave sized for a longer fish than is visible
-    src: "/hero-fish/fish-edge.png",
+    src: "/hero-fish/fish-edge.webp",
     cx: 2078.9, cy: 1301.1, angle: 27.57,
     width: 412, height: 294, xs0: 138.9, ys0: 147, headX: 16, length: 420,
     delay: 0, duration: 2.6, bend: 0.1, beat: 2.0, meander: 0.2, phase: 4.0,
   },
 ];
 
-const STREAM_SRC = "/hero-fish/stream-v4.png";
+const STREAM_SRC = "/hero-fish/stream-v4.webp";
 
 // Water: the front is tied to the first (biggest) fish. It leads the school, and
 // the water's leading edge sits WATER_LEAD pixels ahead of its nose, along the
@@ -199,10 +199,6 @@ const clamp01 = (n: number) => Math.min(1, Math.max(0, n));
 const remaining = (s0: number, tau: number) => s0 * Math.pow(1 - tau, POWER);
 
 export default function HeroArt() {
-  // start fetching everything the swim needs as early as possible
-  preload(STREAM_SRC, { as: "image" });
-  FISH.forEach((f) => preload(f.src, { as: "image" }));
-
   const boxRef = useRef<HTMLDivElement | null>(null);
   const waterRef = useRef<HTMLCanvasElement | null>(null);
   const canvasRef = useRef<HTMLCanvasElement | null>(null);
@@ -370,6 +366,18 @@ export default function HeroArt() {
       className="hero__art"
       aria-hidden="true"
     >
+      {/* start fetching what the swim needs as early as possible, but not for
+          visitors with reduced motion, who never see it */}
+      {[STREAM_SRC, ...FISH.map((f) => f.src)].map((href) => (
+        <link
+          key={href}
+          rel="preload"
+          as="image"
+          href={href}
+          type="image/webp"
+          media="(prefers-reduced-motion: no-preference)"
+        />
+      ))}
       <canvas ref={waterRef} className="hero__art-water" />
       <canvas ref={canvasRef} className="hero__art-canvas" />
       <Image
