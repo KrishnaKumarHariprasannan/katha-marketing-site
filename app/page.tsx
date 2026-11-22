@@ -7,8 +7,7 @@ import BuiltForIcon, { type BuiltForIconName } from "@/components/BuiltForIcon";
 import ContactSection from "@/components/ContactSection";
 import HeroArt from "@/components/HeroArt";
 import StartIllustration from "@/components/StartIllustration";
-import { offers } from "@/lib/offers";
-import { services } from "@/lib/services";
+import { offerPath, offers } from "@/lib/offers";
 
 const builtFor: { label: string; icon: BuiltForIconName }[] = [
   { label: "Social enterprises", icon: "social-enterprises" },
@@ -113,9 +112,8 @@ export default function Home() {
         </div>
       </section>
 
-      {/* Easy ways to start: small fixed-scope offers, each linking to the
-          service it belongs to (where "quick way to start" opens the contact
-          form pre-filled). */}
+      {/* Easy ways to start: small fixed-scope offers, each linking to its own
+          page (/starts/<slug>). */}
       <section
         id="start"
         className="start wave-bottom"
@@ -127,25 +125,22 @@ export default function Home() {
           </h2>
 
           <div className="start__grid">
-            {offers.map((offer) => {
-              const service = services.find((svc) => svc.offer === offer.slug);
-              return (
-                <Link
-                  key={offer.slug}
-                  href={service ? `/services#${service.slug}` : "/services"}
-                  className="start-card"
-                >
-                  <div className="start-card__art">
-                    <StartIllustration name={offer.art} />
-                  </div>
-                  <div className="start-card__body">
-                    <h3 className="start-card__title">{offer.title}</h3>
-                    <p className="start-card__text">{offer.description}</p>
-                    <span className="start-card__more">See details →</span>
-                  </div>
-                </Link>
-              );
-            })}
+            {offers.map((offer) => (
+              <Link
+                key={offer.slug}
+                href={offerPath(offer)}
+                className="start-card"
+              >
+                <div className="start-card__art">
+                  <StartIllustration name={offer.art} />
+                </div>
+                <div className="start-card__body">
+                  <h3 className="start-card__title">{offer.title}</h3>
+                  <p className="start-card__text">{offer.description}</p>
+                  <span className="start-card__more">See details →</span>
+                </div>
+              </Link>
+            ))}
           </div>
 
           <Link href="/services" className="start__all">
